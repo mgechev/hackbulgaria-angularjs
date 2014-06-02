@@ -49,3 +49,62 @@
 2. [Twitter](https://twitter.com/mgechev)
 3. [LinkedIn](https://www.linkedin.com/pub/minko-gechev/33/831/9a7)
 4. [Личен блог](http://blog.mgechev.com)
+
+
+# Програма на курса
+
+1. Основни концепции и Bower
+  - * Създаване на обекти в JavaScript
+  - Видимост на променливите
+  - * Bower - the package manager of the web
+  - * Observer и Publish/subscribe
+  - AngularJS - какво представлява и защо ни е да го използваме?
+  - Хоризонтални и вертикални Single-Page Applications
+  - * Bootstrap на AngularJS приложение и модулите в AngularJS
+  - * Създаване на просто Todo приложение с AngularJS темплейти
+2. Контекст, контролери и dirty-checking
+  - Какво представлява контекстът в едно AngularJS приложение?
+    - * Chain of Responsibilities и Publish/subscribe
+    - * Създаване на приложение с dirty-checking data-binding
+  - * Dependency Injection в AngularJS
+  - Шаблонът page controller и контролерите в AngularJS
+  - * AngularJS $parse
+  - * Рефакториране на Todo приложението, използвайки AngularJS контролери
+3. Услуги, типове услуги, вградени услуги. $provide, декоратори.
+  - Дефиниране на услуги в AngularJS
+  - * Рефакториране на приложението с цел добавяне на модели и persistance
+  - * Шаблонът декоратор
+  - * Декориране на добавените услуги
+  - * Дъздаване на конфигурируем provider за persistance
+4. Филтри, $q, $http, $resource и използване на RESTful API
+  - * Какво представляват promises?
+  - * Създаване на custom филтри
+  - $http vs $resource и АctiveRecord шалонът
+  - * Рефакториране на Todo приложението, използвайки RESTful API
+  - * Real-time с WebSockets
+5. Директиви и routing
+  - * Рефакториране на приложението, добавяне на валидация на формата за добавяне на todos
+  - * "Hello, world!" директива
+  - * **mg**-repeat директива (link vs render)
+  - * Transclusion
+  - * $sce и $compile
+  - * Вградени директиви
+6. Директиви, routing, nested views
+  - * Добавяне на маршрути в Todo приложението
+  - * Рефакториране на Todo приложението, използвайки директиви
+  - * Вложени маршрути с ui-view
+  - * ng-animate
+7. Yeoman, тестване и "теми за напреднали"
+  - * Yeoman, Grunt/Gulp
+  - Unit тестване с Jasmine и Karma
+    - * Test all the things!
+  - Наследяване
+    - * Контролери
+    - * Услуги
+  - Добри практики
+8. AOP, lazy-prefetching
+  - * Какво е aspect-oriented programming, защо да го използваме?
+  - * Lazy-prefetching на темплейти
+  - * Създаване на VNC клиент
+
+Към всички точки с (*) има предвидена практическа задачка.
