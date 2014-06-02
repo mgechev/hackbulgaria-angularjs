@@ -2,5 +2,5 @@
 
 var vid = new Video(document.getElementById('video'),
       document.getElementById('canvas'));
-vid.addFilter(new BWFilter());
+vid.addFilter(BWFilter.init('grayscale'));
 vid.start();
