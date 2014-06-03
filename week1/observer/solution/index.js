@@ -3,7 +3,7 @@
 var MailObserver = require('./lib/observers/MailObserver'),
     LogObserver = require('./lib/observers/LogObserver'),
     logConfig = { path: __dirname + '/logs' },
-    mailerConfig = { from: 'Foo Bar <foo@bar.baz>', to: 'mgechev@gmail.com' },
+    mailerConfig = { from: 'Foo Bar <foo@bar.baz>', to: '<enter@your.email>' },
     mailer = new MailObserver(mailerConfig),
     logger = new LogObserver(logConfig),
     PostsCollection = require('./lib/observables/PostsCollection'),
