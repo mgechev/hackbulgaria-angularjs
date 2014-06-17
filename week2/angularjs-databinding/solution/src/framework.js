@@ -44,12 +44,12 @@ Scope.prototype.$eval = function (exp) {
   return val;
 };
 
-Scope.prototype.getScopeById = function (id) {
+Scope.prototype.getChildScopeById = function (id) {
   if (this.$id == id) {
     return this;
   }
   for (var i = 0; i < this.$$children.length; i += 1) {
-    return this.$$children[i].getScopeById(id);
+    return this.$$children[i].getChildScopeById(id);
   }
   return null;
 };
@@ -291,7 +291,7 @@ var DOMCompiler = {
     }
     if (el.getAttribute('f-scope') != scope.$id) {
       scope = ServiceRegistry.getService('$rootScope')
-        .getScopeById(el.getAttribute('f-scope'));
+        .getChildScopeById(el.getAttribute('f-scope'));
     }
     for (var i = 0; i < dirs.length; i += 1) {
       dir = DirectiveRegistry.getDirective(dirs[i].name);
