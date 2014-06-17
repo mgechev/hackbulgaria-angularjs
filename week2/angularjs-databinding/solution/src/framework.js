@@ -1,3 +1,5 @@
+/* globals document: true, window: true, setTimeout: true, setInterval: true */
+
 function Scope(parent, id) {
   'use strict';
   this.$$watchers = [];
@@ -33,14 +35,28 @@ Scope.prototype.$eval = function (exp) {
 
 Scope.prototype.$new = function () {
   'use strict';
-  var obj = new Scope(this, this.$id + 1);
+  Scope.counter += 1;
+  var obj = new Scope(this, Scope.counter);
   Object.setPrototypeOf(obj, this);
   this.$$children.push(obj);
   return obj;
 };
 
+Scope.counter = 0;
+
+Scope.prototype.$destroy = function () {
+  'use strict';
+  var pc = this.$parent.$$children;
+  pc.splice(pc.indexOf(this), 1);
+};
+
 Scope.prototype.$digest = function () {
   'use strict';
+
+  function isEqual(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  }
+
   var dirty = true,
       watcher, current, i;
   while (dirty) {
@@ -48,7 +64,7 @@ Scope.prototype.$digest = function () {
     for (i = 0; i < this.$$watchers.length; i += 1) {
       watcher = this.$$watchers[i];
       current = this.$eval(watcher.exp);
-      if (watcher.last !== current) {
+      if (!isEqual(watcher.last, current)) {
         watcher.last = current;
         dirty = true;
         watcher.fn(current);
@@ -73,26 +89,6 @@ var DirectiveRegistry = {
   registerDirective: function (name, directive) {
     'use strict';
     this._directives[name] = directive;
-  }
-};
-
-var ServiceRegistry = {
-  getService: function (name) {
-    'use strict';
-    if (this._cache[name]) {
-      return this._cache[name];
-    }
-    var service = this._services[name];
-    if (!service || typeof service !== 'function') {
-      return null;
-    }
-    return (this._cache[name] = Injector.invoke(service));
-  },
-  _cache: { $rootScope: new Scope() },
-  _services: {},
-  registerService: function (name, factory) {
-    'use strict';
-    this._services[name] = factory;
   }
 };
 
@@ -122,6 +118,26 @@ var Injector = {
       return this.getService(s, locals);
     }.bind(this));
     return fn.apply(null, deps);
+  }
+};
+
+var ServiceRegistry = {
+  getService: function (name) {
+    'use strict';
+    if (this._cache[name]) {
+      return this._cache[name];
+    }
+    var service = this._services[name];
+    if (!service || typeof service !== 'function') {
+      return null;
+    }
+    return (this._cache[name] = Injector.invoke(service));
+  },
+  _cache: { $rootScope: new Scope() },
+  _services: {},
+  registerService: function (name, factory) {
+    'use strict';
+    this._services[name] = factory;
   }
 };
 
@@ -176,6 +192,44 @@ DirectiveRegistry.registerDirective('f-bind', {
   }
 });
 
+DirectiveRegistry.registerDirective('f-repeat', {
+  scope: false,
+  link: function (el, scope, exp) {
+    'use strict';
+    var scopes = [],
+        parts = exp.split('in'),
+        collectionName = parts[1].trim(),
+        itemName = parts[0].trim();
+
+    function render(val) {
+      var els = val,
+          currentNode, s,
+          parentNode = el.parentNode,
+          children = parentNode.children;
+      for (var i = 0; i < children.length; i += 1) {
+        parentNode.removeChild(children[i]);
+      }
+      scopes.forEach(function (s) {
+        s.$destroy();
+      });
+      scopes = [];
+      els.forEach(function (val) {
+        currentNode = el.cloneNode();
+        currentNode.removeAttribute('f-repeat');
+        s = scope.$new();
+        scopes.push(s);
+        s[itemName] = val;
+        DOMCompiler.compile(currentNode, s);
+        parentNode.appendChild(currentNode);
+      });
+      el = currentNode;
+    }
+
+    scope.$watch(collectionName, render);
+    render(scope.$eval(collectionName));
+  }
+});
+
 function MainCtrl($scope) {
   'use strict';
   $scope.foo = 42;
@@ -183,18 +237,16 @@ function MainCtrl($scope) {
 
 function ChildCtrl($scope, $interval) {
   'use strict';
-  $interval(function () {
-    $scope.foo += 1;
-  }, 1000);
+  $scope.items = [1, 2, 3, 4, 5, 6];
   $scope.alert = function () {
-    $scope.foo += 1;
+    $scope.items.push($scope.foo++);
   };
 }
 
 var DOMCompiler = {
-  compile: function () {
+  bootstrap: function () {
     'use strict';
-    this._compile(document.children[0],
+    this.compile(document.children[0],
       ServiceRegistry.getService('$rootScope'));
   },
   _getElDirectives: function (el) {
@@ -211,7 +263,7 @@ var DOMCompiler = {
     }
     return result;
   },
-  _compile: function (el, scope) {
+  compile: function (el, scope) {
     'use strict';
     var dirs = this._getElDirectives(el),
         dir, scopeCreated;
@@ -225,9 +277,9 @@ var DOMCompiler = {
       dir.link(el, scope, dirs[i].value);
     }
     for (i = 0; i < el.children.length; i += 1) {
-      this._compile(el.children[i], scope);
+      this.compile(el.children[i], scope);
     }
   }
 };
 
-DOMCompiler.compile();
+DOMCompiler.bootstrap();

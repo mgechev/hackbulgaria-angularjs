@@ -8,6 +8,9 @@
   <div f-controller="ChildCtrl">
     <div f-bind="foo"></div>
     <button f-click="alert()">Click me</button>
+    <ul>
+      <li f-repeat="item in items" f-bind="item"></li>
+    </ul>
   </div>
   <script src="src/framework.js"></script>
 </body>
