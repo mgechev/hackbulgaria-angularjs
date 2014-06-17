@@ -1,5 +1,16 @@
 /* globals document: true, window: true, setTimeout: true, setInterval: true */
 
+var Utils = {
+  equals: function (a, b) {
+    'use strict';
+    return JSON.stringify(a) === JSON.stringify(b);
+  },
+  clone: function (a) {
+    'use strict';
+    return JSON.parse(JSON.stringify(a));
+  }
+};
+
 function Scope(parent, id) {
   'use strict';
   this.$$watchers = [];
@@ -13,7 +24,7 @@ Scope.prototype.$watch = function (exp, fn) {
   this.$$watchers.push({
     exp: exp,
     fn: fn,
-    last: this.$eval(exp)
+    last: Utils.clone(this.$eval(exp))
   });
 };
 
@@ -31,6 +42,16 @@ Scope.prototype.$eval = function (exp) {
     }
   }
   return val;
+};
+
+Scope.prototype.getScopeById = function (id) {
+  if (this.$id == id) {
+    return this;
+  }
+  for (var i = 0; i < this.$$children.length; i += 1) {
+    return this.$$children[i].getScopeById(id);
+  }
+  return null;
 };
 
 Scope.prototype.$new = function () {
@@ -53,10 +74,6 @@ Scope.prototype.$destroy = function () {
 Scope.prototype.$digest = function () {
   'use strict';
 
-  function isEqual(obj1, obj2) {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
-  }
-
   var dirty = true,
       watcher, current, i;
   while (dirty) {
@@ -64,8 +81,8 @@ Scope.prototype.$digest = function () {
     for (i = 0; i < this.$$watchers.length; i += 1) {
       watcher = this.$$watchers[i];
       current = this.$eval(watcher.exp);
-      if (!isEqual(watcher.last, current)) {
-        watcher.last = current;
+      if (!Utils.equals(watcher.last, current)) {
+        watcher.last = Utils.clone(current);
         dirty = true;
         watcher.fn(current);
       }
@@ -206,9 +223,10 @@ DirectiveRegistry.registerDirective('f-repeat', {
           currentNode, s,
           parentNode = el.parentNode,
           children = parentNode.children;
-      for (var i = 0; i < children.length; i += 1) {
-        parentNode.removeChild(children[i]);
+      while (parentNode.firstChild) {
+        parentNode.removeChild(parentNode.firstChild);
       }
+
       scopes.forEach(function (s) {
         s.$destroy();
       });
@@ -216,6 +234,7 @@ DirectiveRegistry.registerDirective('f-repeat', {
       els.forEach(function (val) {
         currentNode = el.cloneNode();
         currentNode.removeAttribute('f-repeat');
+        currentNode.removeAttribute('f-scope');
         s = scope.$new();
         scopes.push(s);
         s[itemName] = val;
@@ -267,6 +286,13 @@ var DOMCompiler = {
     'use strict';
     var dirs = this._getElDirectives(el),
         dir, scopeCreated;
+    if (!el.getAttribute('f-scope')) {
+      el.setAttribute('f-scope', scope.$id);
+    }
+    if (el.getAttribute('f-scope') != scope.$id) {
+      scope = ServiceRegistry.getService('$rootScope')
+        .getScopeById(el.getAttribute('f-scope'));
+    }
     for (var i = 0; i < dirs.length; i += 1) {
       dir = DirectiveRegistry.getDirective(dirs[i].name);
       if (dir.scope && !scopeCreated) {
