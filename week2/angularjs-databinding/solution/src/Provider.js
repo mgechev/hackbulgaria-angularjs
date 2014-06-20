@@ -32,7 +32,9 @@ var Provider = {
   },
   annotate: function (fn) {
     'use strict';
-    var res = fn.toString().match(/function.*?\((.*?)\)/);
+    var res = fn.toString()
+        .replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg, '')
+        .match(/function.*?\((.*?)\)/);
     if (res && res[1]) {
       return res[1].split(',').map(function (d) {
         return d.trim();
@@ -42,7 +44,7 @@ var Provider = {
   },
   invoke: function (fn, locals) {
     'use strict';
-    locals = locals || [];
+    locals = locals || {};
     var deps = this.annotate(fn);
     deps = deps.map(function (s) {
       if (locals[s]) {
