@@ -31,16 +31,6 @@ Scope.prototype.$eval = function (exp) {
   return val;
 };
 
-Scope.prototype.getChildScopeById = function (id) {
-  if (this.$id == id) {
-    return this;
-  }
-  for (var i = 0; i < this.$$children.length; i += 1) {
-    return this.$$children[i].getChildScopeById(id);
-  }
-  return null;
-};
-
 Scope.prototype.$new = function () {
   'use strict';
   Scope.counter += 1;

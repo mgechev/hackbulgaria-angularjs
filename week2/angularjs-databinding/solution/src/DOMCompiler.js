@@ -25,13 +25,8 @@ var DOMCompiler = {
     if (!el.getAttribute('ngl-scope')) {
       el.setAttribute('ngl-scope', scope.$id);
     }
-    if (el.getAttribute('ngl-scope') != scope.$id) {
-      scope = Provider.get('$rootScope')
-        .getChildScopeById(el.getAttribute('ngl-scope'));
-    }
     for (var i = 0; i < dirs.length; i += 1) {
       dir = Provider.get(dirs[i].name + Provider.DIRECTIVES_SUFFIX);
-      console.log(dir);
       if (dir.scope && !scopeCreated) {
         scope = scope.$new();
         el.setAttribute('ngl-scope', true);
@@ -39,7 +34,10 @@ var DOMCompiler = {
       }
       dir.link(el, scope, dirs[i].value);
     }
-    for (i = 0; i < el.children.length; i += 1) {
+    var children = Array.prototype.slice.call(el.children).map(function (c) {
+      return c;
+    });
+    for (i = 0; i < children.length; i += 1) {
       this.compile(el.children[i], scope);
     }
   }
