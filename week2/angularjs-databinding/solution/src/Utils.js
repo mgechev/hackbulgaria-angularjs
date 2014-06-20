@@ -8,7 +8,7 @@ var Utils = {
     try {
       return JSON.parse(JSON.stringify(a));
     } catch (e) {
-      return false;
+      return undefined;
     }
   }
 };
