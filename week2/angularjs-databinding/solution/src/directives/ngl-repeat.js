@@ -6,12 +6,12 @@ Provider.directive('ngl-repeat', function () {
       var scopes = [],
           parts = exp.split('in'),
           collectionName = parts[1].trim(),
-          itemName = parts[0].trim();
+          itemName = parts[0].trim(),
+          parentNode = el.parentNode;
 
       function render(val) {
         var els = val,
-            currentNode, s,
-            parentNode = el.parentNode;
+            currentNode, s;
 
         while (parentNode.firstChild) {
           parentNode.removeChild(parentNode.firstChild);
@@ -31,7 +31,6 @@ Provider.directive('ngl-repeat', function () {
           DOMCompiler.compile(currentNode, s);
           parentNode.appendChild(currentNode);
         });
-        el = currentNode;
       }
 
       scope.$watch(collectionName, render);
