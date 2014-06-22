@@ -22,14 +22,10 @@ var DOMCompiler = {
     'use strict';
     var dirs = this._getElDirectives(el),
         dir, scopeCreated;
-    if (!el.getAttribute('ngl-scope')) {
-      el.setAttribute('ngl-scope', scope.$id);
-    }
     for (var i = 0; i < dirs.length; i += 1) {
       dir = Provider.get(dirs[i].name + Provider.DIRECTIVES_SUFFIX);
       if (dir.scope && !scopeCreated) {
         scope = scope.$new();
-        el.setAttribute('ngl-scope', true);
         scopeCreated = true;
       }
       dir.link(el, scope, dirs[i].value);

@@ -50,3 +50,32 @@ Our framework is going to support directives, two-way data-binding, services, co
 0. Add method called `_register`. `_register` should accept two arguments - `fn` (factory method of the provider) and `name` (name of the provider). It should add new property of the `_providers` hash map with name the first argument passed to the method and value a function, which returns the factory method of the proider.
 
 0. Add methods called `directive`, `controller` and `service`. They should accept two arguments - `name` (name of the provider) and `fn` (factory method). They should call `_register` with appropriate name for the provider (i.e. with special suffix for `directive` and `controller` - `DIRECTIVES_SUFFIX`, `CONTROLLERS_SUFFIX`) and the factory method, which is passed as second argument.
+
+## DOMCompiler
+
+0. Define a object literal called `DOMCompiler`, which has the following public interface:
+  * `bootstrap` - method responsible for doing the initial parsing of the DOM tree.
+  * `compile` - method, which accepts element and scope and compiles the subtree, which has root the passed element, in the context of the passed scope.
+
+0. `bootstrap`, should invoke `compile` with the `$rootScope` and the root element of your application (there are no any restrictions of which will be your root element).
+
+0. `compile`, should apply the `link` function of all directives found on the current element and after that should invoke itself recursively with all child elements of the current element. Each registered directive must have two properties:
+  * `scope` - a boolean property, which indicates that the current directive requires new scope to be created. **NOTE** that no more than one new scope per directive should be created.
+  * `link` - a link function, which is responsible for encapsulating the directive's logic.
+
+### Sample directive
+
+```JavaScript
+Provider.directive('ngl-click', function () {
+  'use strict';
+  return {
+    scope: false,
+    link: function (el, scope, exp) {
+      el.onclick = function () {
+        scope.$eval(exp);
+        scope.$digest();
+      };
+    }
+  };
+});
+```
