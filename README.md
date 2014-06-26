@@ -87,6 +87,7 @@
   - * Рефакториране на приложението, добавяне на валидация на формата за добавяне на todos
   - * "Hello, world!" директива
   - * **mg**-repeat директива (link vs render)
+  - * $location
   - * Transclusion
   - * $sce и $compile
   - * Вградени директиви
