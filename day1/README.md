@@ -1,13 +1,14 @@
 # Before the class
 
 1. `/slides`
-2. [Constructor pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#constructorpatternjavascript)
-3. [Module pattrn](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript)
-4. [Observer pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript)
-5. [Decorator pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#decoratorpatternjavascript)
-6. [MVW](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailmvcmvp)
-7. [Observer pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjquery)
-8. [AngularJS Overview](http://blog.mgechev.com/2014/05/08/angularjs-in-patterns-part-1-overview-of-angularjs/)
+2. [Bower](http://bower.io/)
+3. [Constructor pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#constructorpatternjavascript)
+4. [Module pattrn](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript)
+5. [Observer pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript)
+6. [Decorator pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#decoratorpatternjavascript)
+7. [MVW](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#detailmvcmvp)
+8. [Observer pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjquery)
+9. [AngularJS Overview](http://blog.mgechev.com/2014/05/08/angularjs-in-patterns-part-1-overview-of-angularjs/)
 
 # Homework
 
