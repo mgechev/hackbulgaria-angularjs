@@ -1,6 +1,6 @@
 {
   "generator-reveal": {
-    "presentationTitle": "Bower",
+    "presentationTitle": "Introduction",
     "packageVersion": "0.0.0",
     "useSass": false,
     "deployToGithubPages": false
