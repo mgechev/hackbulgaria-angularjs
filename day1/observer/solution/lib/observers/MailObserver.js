@@ -10,6 +10,7 @@ function MailObserver(config) {
 
 MailObserver.prototype = Object.create(Observer.prototype);
 
+// Implements the logic required for sending emails
 MailObserver.prototype.update = function (title, data) {
   'use strict';
   var config = JSON.parse(JSON.stringify(this.config));

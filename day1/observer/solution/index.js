@@ -4,7 +4,9 @@ var MailObserver = require('./lib/observers/MailObserver'),
     LogObserver = require('./lib/observers/LogObserver'),
     logConfig = { path: __dirname + '/logs' },
     mailerConfig = { from: 'Foo Bar <foo@bar.baz>', to: '<enter@your.email>' },
+    // Instantiate new mailer
     mailer = new MailObserver(mailerConfig),
+    // Instantiate new logger
     logger = new LogObserver(logConfig),
     PostsCollection = require('./lib/observables/PostsCollection'),
     posts = new PostsCollection(),
@@ -12,6 +14,10 @@ var MailObserver = require('./lib/observers/MailObserver'),
     bodyParser = require('body-parser'),
     app = express();
 
+// Attaching the mailer and logger observers
+// This is very important step because otherwise
+// the observers array will be empty and no
+// notification will happen.
 posts.addObserver(mailer);
 posts.addObserver(logger);
 

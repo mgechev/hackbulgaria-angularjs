@@ -1,3 +1,7 @@
+// For details checkout
+// http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript
+// And https://stackoverflow.com/questions/13512949/why-would-one-use-the-publish-subscribe-pattern-in-js-jquery/13513915#13513915
+
 var pubsub = {};
 (function (q) {
   'use strict';
