@@ -1,4 +1,4 @@
-/* global Filter: false */
+/* global Filter */
 
 // Solution 1
 

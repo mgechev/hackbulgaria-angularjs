@@ -1,4 +1,4 @@
-/* global Video: false, document: false, BWFilter: false */
+/* global Video, document, BWFilter */
 
 var vid = new Video(document.getElementById('video'),
       document.getElementById('canvas'));
