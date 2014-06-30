@@ -1,4 +1,4 @@
-/* global module: false, require: false */
+/* global module, require */
 
 var Observer = require('./Observer'),
     fs = require('fs');
