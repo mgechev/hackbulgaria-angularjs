@@ -1,3 +1,5 @@
+/* global Scope */
+
 var Provider = {
   get: function (name, locals) {
     'use strict';
@@ -8,7 +10,7 @@ var Provider = {
     if (!provider || typeof provider !== 'function') {
       return null;
     }
-    return (this._cache[name] = this.invoke(provider(), locals));
+    return (this._cache[name] = this.invoke(provider, locals));
   },
   _cache: { $rootScope: new Scope() },
   _providers: {},
@@ -26,9 +28,7 @@ var Provider = {
   },
   _register: function (name, service) {
     'use strict';
-    this._providers[name] = function () {
-      return service;
-    };
+    this._providers[name] = service;
   },
   annotate: function (fn) {
     'use strict';
@@ -47,11 +47,7 @@ var Provider = {
     locals = locals || {};
     var deps = this.annotate(fn);
     deps = deps.map(function (s) {
-      if (locals[s]) {
-        return locals[s];
-      } else {
-        return this.get(s, locals);
-      }
+      return locals[s] || this.get(s, locals);
     }.bind(this));
     return fn.apply(null, deps);
   }
