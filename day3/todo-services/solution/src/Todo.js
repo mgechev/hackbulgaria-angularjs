@@ -1,27 +1,36 @@
 /* global TodoApp */
 
-TodoApp.service('todo', function (storage) {
+TodoApp.factory('Todo', function (storage) {
   'use strict';
+  var todos = storage.get('todos') || [];
+  todos = todos.map(function (t) {
+    return new Todo(t);
+  });
 
-  this._todos = storage.get('todos') || [];
+  function Todo(data) {
+    this.title = data.title;
+    this.date = data.date;
+    this.id = data.id;
+  }
+  Todo.prototype.save = function () {
+    var idx = todos.push(this);
+    this.id = idx;
+    storage.put('todos', todos);
+  };
+  Todo.prototype.destroy = function () {
+    todos.splice(this.id, 1);
+    storage.put('todos', todos);
+  };
 
-  this.getList = function () {
-    return this._todos.map(function (todo, idx) {
-      return {
+  Todo.getList = function () {
+    return todos.map(function (todo, idx) {
+      return new Todo({
         title: todo.title,
         id: idx,
         completed: todo.completed
-      };
+      });
     });
   };
 
-  this.addTodo = function (todo) {
-    this._todos.push(todo);
-    storage.put('todos', this._todos);
-  };
-
-  this.removeTodo = function (idx) {
-    this._todos.splice(idx, 1);
-    storage.put('todos', this._todos);
-  };
+  return Todo;
 });

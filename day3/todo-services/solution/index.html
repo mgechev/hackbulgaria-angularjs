@@ -11,7 +11,9 @@
   </label>
   <button data-ng-click="add()" class="btn btn-primary">Add</button>
   <ul>
-    <li data-ng-repeat="todo in todos">{{todo.title}}</li>
+    <li data-ng-repeat="todo in todos">
+      {{todo.title}} <a href="#" data-ng-click="remove(todo)">[X]</a>
+    </li>
   </ul>
   <script src="bower_components/angular/angular.js"></script>
   <script src="src/app.js"></script>
