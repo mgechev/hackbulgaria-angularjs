@@ -15,8 +15,8 @@ Todo.prototype.save = function () {
 };
 
 Todo.prototype.destroy = function () {
-  var todo = todos.splice(this.id, 1);
-  return todo;
+  todos.splice(this.id, 1);
+  return this;
 };
 
 Todo.find = function (id) {

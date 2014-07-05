@@ -1,6 +1,6 @@
 /* global TodoApp */
 
-TodoApp.controller('TodoCtrl', function ($scope, Todo) {
+TodoApp.controller('TodoCtrl', function ($scope, $resource, Todo) {
   'use strict';
 
   $scope.todos = Todo.getList();
