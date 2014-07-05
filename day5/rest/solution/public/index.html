@@ -4,12 +4,24 @@
   <meta charset="UTF-8">
   <title></title>
   <link rel="stylesheet" href="public/components/bootstrap/dist/css/bootstrap.css">
+  <style>
+  body {
+    padding: 30px;
+  }
+  </style>
 </head>
 <body data-ng-app="todo" data-ng-controller="TodoCtrl">
   <label for="title-input">Todo title:
     <input type="text" name="title-input" class="form-input" data-ng-model="todoTitle">
   </label>
+  <br>
+  <label for="until-date-input">Completed until:
+    <input type="date" data-ng-model="todoDate" class="form-input" name="until-date-input">
+    <input type="time" data-ng-model="todoTime" class="form-input" name="until-date-input">
+  </label>
+  <br>
   <button data-ng-click="add()" class="btn btn-primary">Add</button>
+  <h1>Todo items</h1>
   <ul>
     <li data-ng-repeat="todo in todos">
       <a href="#" data-ng-click="details(todo.id)">{{todo.title}}</a>
@@ -18,7 +30,10 @@
   </ul>
   <br>
   <div data-ng-show="todo">
+    <h1>Todo details for #{{todo.id}}</h1>
     <div>Title: {{todo.title}}</div>
+    <div>Created: {{todo.created}}</div>
+    <div>Deadline: {{todo.until}}</div>
   </div>
   <script src="public/components/angular/angular.js"></script>
   <script src="src/app.js"></script>

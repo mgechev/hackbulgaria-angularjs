@@ -1,6 +1,6 @@
 /* global TodoApp */
 
-TodoApp.controller('TodoCtrl', function ($scope, $resource, Todo) {
+TodoApp.controller('TodoCtrl', function ($scope, Todo) {
   'use strict';
 
   $scope.todos = Todo.getList();
@@ -9,6 +9,7 @@ TodoApp.controller('TodoCtrl', function ($scope, $resource, Todo) {
     new Todo({
       title: $scope.todoTitle,
       date: new Date(),
+      until: new Date($scope.todoDate + '/' + $scope.todoTime)
     }).save();
     $scope.todoTitle = '';
     $scope.todos = Todo.getList();

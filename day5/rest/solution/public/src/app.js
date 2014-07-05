@@ -2,6 +2,6 @@
 
 (function () {
   'use strict';
-  window.TodoApp = angular.module('todo', ['ngResource']);
+  window.TodoApp = angular.module('todo', []);
 }());
 
