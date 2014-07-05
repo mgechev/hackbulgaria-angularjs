@@ -1,0 +1,42 @@
+/* global TodoApp */
+
+TodoApp.factory('Todo', function ($http) {
+  'use strict';
+  var todos = [];
+  $http.get('/todos')
+  .then(function (res) {
+    res.data.forEach(function (t) {
+      todos.push(new Todo(t));
+    });
+  });
+
+  function Todo(data) {
+    this.title = data.title;
+    this.date = data.date;
+    this.id = data.id;
+  }
+
+  Todo.prototype.save = function () {
+    var idx = todos.push(this),
+        self = this;
+    $http.post('/todos', this)
+    .then(function (d) {
+      self.id = d.data.id;
+    });
+  };
+
+  Todo.prototype.destroy = function () {
+    todos.splice(this.id, 1);
+    $http.delete('/todos/' + this.id);
+  };
+
+  Todo.getList = function () {
+    return todos;
+  };
+
+  Todo.get = function (id) {
+    return $http.get('/todos/' + id);
+  };
+
+  return Todo;
+});
