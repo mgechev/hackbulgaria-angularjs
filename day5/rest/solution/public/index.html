@@ -21,7 +21,7 @@
   </label>
   <br>
   <button data-ng-click="add()" class="btn btn-primary">Add</button>
-  <h1>Todo items</h1>
+  <h3>Todo items</h3>
   <ul>
     <li data-ng-repeat="todo in todos">
       <a href="#" data-ng-click="details(todo.id)">{{todo.title}}</a>
@@ -30,7 +30,7 @@
   </ul>
   <br>
   <div data-ng-show="todo">
-    <h1>Todo details for #{{todo.id}}</h1>
+    <h3>Todo details for #{{todo.id}}</h3>
     <div>Title: {{todo.title}}</div>
     <div>Created: {{todo.created}}</div>
     <div>Deadline: {{todo.until}}</div>
