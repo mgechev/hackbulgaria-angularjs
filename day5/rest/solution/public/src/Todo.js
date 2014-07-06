@@ -3,7 +3,7 @@
 TodoApp.factory('Todo', function ($http) {
   'use strict';
   var todos = [];
-  $http.get('/todos')
+  $http.get('/todo')
   .then(function (res) {
     res.data.forEach(function (t) {
       todos.push(new Todo(t));
@@ -20,7 +20,7 @@ TodoApp.factory('Todo', function ($http) {
   Todo.prototype.save = function () {
     var idx = todos.push(this),
         self = this;
-    $http.post('/todos', this)
+    $http.post('/todo', this)
     .then(function (d) {
       self.id = d.data.id;
     });
@@ -28,7 +28,7 @@ TodoApp.factory('Todo', function ($http) {
 
   Todo.prototype.destroy = function () {
     todos.splice(this.id, 1);
-    $http.delete('/todos/' + this.id);
+    $http.delete('/todo/' + this.id);
   };
 
   Todo.getList = function () {
@@ -36,7 +36,7 @@ TodoApp.factory('Todo', function ($http) {
   };
 
   Todo.get = function (id) {
-    return $http.get('/todos/' + id);
+    return $http.get('/todo/' + id);
   };
 
   return Todo;
