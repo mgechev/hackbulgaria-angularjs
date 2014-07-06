@@ -12,7 +12,7 @@ Todo.prototype.save = function () {
   var id = todos.push(this);
   this.id = counter;
   counter += 1;
-  console.log(this.id);
+  console.log(this);
   return this;
 };
 
@@ -22,6 +22,7 @@ Todo.prototype.destroy = function () {
 };
 
 Todo.find = function (id) {
+  console.log(id, todos[id]);
   return todos[id] || null;
 };
 
