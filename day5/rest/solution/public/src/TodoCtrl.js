@@ -12,6 +12,8 @@ TodoApp.controller('TodoCtrl', function ($scope, Todo) {
       until: new Date($scope.todoDate + '/' + $scope.todoTime)
     }).save();
     $scope.todoTitle = '';
+    $scope.todoDate = '';
+    $scope.todoTime = '';
     $scope.todos = Todo.getList();
   };
 
