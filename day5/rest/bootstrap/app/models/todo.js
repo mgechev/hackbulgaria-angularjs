@@ -1,4 +1,5 @@
-var todos = [];
+var todos = [],
+    counter = 0;
 
 function Todo(data) {
   this.id = data.id;
@@ -9,7 +10,8 @@ function Todo(data) {
 
 Todo.prototype.save = function () {
   var id = todos.push(this);
-  this.id = id - 1;
+  this.id = counter;
+  counter += 1;
   console.log(this.id);
   return this;
 };
@@ -33,3 +35,4 @@ Todo.getList = function () {
 };
 
 module.exports = Todo;
+
