@@ -3,7 +3,8 @@ Provider.directive('ngl-controller', function () {
   return {
     scope: true,
     link: function (el, scope, exp) {
-      Provider.get(exp + Provider.CONTROLLERS_SUFFIX, { $scope: scope });
+      var ctrl = Provider.get(exp + Provider.CONTROLLERS_SUFFIX);
+      Provider.invoke(ctrl, { $scope: scope });
     }
   };
 });

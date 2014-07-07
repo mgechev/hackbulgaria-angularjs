@@ -18,7 +18,9 @@ var Provider = Provider || (function () {
       this._register(name + Provider.DIRECTIVES_SUFFIX, fn);
     },
     controller: function (name, fn) {
-      this._register(name + Provider.CONTROLLERS_SUFFIX, fn);
+      this._register(name + Provider.CONTROLLERS_SUFFIX, function () {
+        return fn;
+      });
     },
     service: function (name, fn) {
       this._register(name, fn);
