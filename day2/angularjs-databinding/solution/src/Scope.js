@@ -8,6 +8,8 @@ function Scope(parent, id) {
   this.$id = id || 0;
 }
 
+Scope.counter = 0;
+
 Scope.prototype.$watch = function (exp, fn) {
   'use strict';
   this.$$watchers.push({
@@ -25,7 +27,9 @@ Scope.prototype.$eval = function (exp) {
   } else {
     if ((/\(\)$/).test(exp)) {
       exp = exp.replace(/\(\)$/, '');
-      val = this[exp]();
+      if (typeof this[exp] === 'function') {
+        val = this[exp]();
+      }
     } else {
       val = this[exp];
     }
@@ -42,8 +46,6 @@ Scope.prototype.$new = function () {
   return obj;
 };
 
-Scope.counter = 0;
-
 Scope.prototype.$destroy = function () {
   'use strict';
   var pc = this.$parent.$$children;
@@ -52,9 +54,9 @@ Scope.prototype.$destroy = function () {
 
 Scope.prototype.$digest = function () {
   'use strict';
-  var dirty = true,
+  var dirty = false,
       watcher, current, i;
-  while (dirty) {
+  do {
     dirty = false;
     for (i = 0; i < this.$$watchers.length; i += 1) {
       watcher = this.$$watchers[i];
@@ -65,7 +67,7 @@ Scope.prototype.$digest = function () {
         watcher.fn(current);
       }
     }
-  }
+  } while (dirty);
   for (i = 0; i < this.$$children.length; i += 1) {
     this.$$children[i].$digest();
   }
