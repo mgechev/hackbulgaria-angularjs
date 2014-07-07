@@ -1,3 +1,5 @@
+/* global Utils */
+
 function Scope(parent, id) {
   'use strict';
   this.$$watchers = [];
@@ -50,7 +52,6 @@ Scope.prototype.$destroy = function () {
 
 Scope.prototype.$digest = function () {
   'use strict';
-
   var dirty = true,
       watcher, current, i;
   while (dirty) {

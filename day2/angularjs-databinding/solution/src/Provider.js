@@ -23,9 +23,6 @@ var Provider = Provider || (function () {
     service: function (name, fn) {
       this._register(name, fn);
     },
-    _register: function (name, service) {
-      this._providers[name] = service;
-    },
     annotate: function (fn) {
       var res = fn.toString()
           .replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg, '')
@@ -45,7 +42,10 @@ var Provider = Provider || (function () {
       return fn.apply(null, deps);
     },
     _cache: { $rootScope: new Scope() },
-    _providers: {}
+    _providers: {},
+    _register: function (name, service) {
+      this._providers[name] = service;
+    }
   };
 }());
 
