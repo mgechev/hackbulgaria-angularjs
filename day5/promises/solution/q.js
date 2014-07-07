@@ -67,7 +67,7 @@ var Q = (function () {
       var arr = [],
           deferred = this.defer(),
           resolved = 0;
-      deferreds.forEach(function (promise, i) {
+      promises.forEach(function (promise, i) {
         promise.done(function (data) {
           arr[i] = data;
           resolved += 1;
