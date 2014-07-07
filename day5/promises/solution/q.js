@@ -67,15 +67,15 @@ var Q = (function () {
       var arr = [],
           deferred = this.defer(),
           resolved = 0;
-      deferreds.forEach(function (d, i) {
-        d.promise.done(function (data) {
+      deferreds.forEach(function (promise, i) {
+        promise.done(function (data) {
           arr[i] = data;
           resolved += 1;
           if (resolved >= deferreds.length) {
             deferred.resolve(arr);
           }
         });
-        d.promise.fail(function (data) {
+        promise.fail(function (data) {
           deferred.reject(data);
         });
       });
