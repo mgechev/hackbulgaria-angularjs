@@ -20,15 +20,19 @@
       var deferred = Q.defer(),
           rule = rules['#' + this.id];
       promises.push(deferred.promise);
+      $(this).parent().removeClass('has-error');
       if (rule(this.value || '')) {
-        deferred.resolve();
+        deferred.resolve(this.id);
       } else {
-        deferred.reject();
+        deferred.reject(this.id);
       }
     });
     Q.all(promises)
     .done(function () {
-      alert('The form is valid!');
+      console.log('Everything is valid!');
+    })
+    .fail(function (error) {
+      $('#' + error).parent().addClass('has-error');
     });
   });
 }());

@@ -19,6 +19,7 @@ Promise.prototype.done = function (cb) {
   if (this._state === STATES.RESOLVED) {
     cb(this._resolveData);
   }
+  return this;
 };
 
 Promise.prototype.fail = function (cb) {
@@ -26,6 +27,7 @@ Promise.prototype.fail = function (cb) {
   if (this._state === STATES.REJECTED) {
     cb(this._rejectData);
   }
+  return this;
 };
 
 function Deferred() {
@@ -63,20 +65,26 @@ var Q = (function () {
     defer: function () {
       return new Deferred();
     },
-    all: function (deferreds) {
+    all: function (promises) {
       var arr = [],
           deferred = this.defer(),
-          resolved = 0;
+          resolved = 0,
+          done = false;
       promises.forEach(function (promise, i) {
+        if (done) {
+          return;
+        }
         promise.done(function (data) {
           arr[i] = data;
           resolved += 1;
-          if (resolved >= deferreds.length) {
+          if (resolved >= promises.length) {
             deferred.resolve(arr);
+            done = true;
           }
         });
         promise.fail(function (data) {
           deferred.reject(data);
+          done = true;
         });
       });
       return deferred.promise;
