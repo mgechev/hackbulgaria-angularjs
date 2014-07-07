@@ -10,20 +10,20 @@ var DOMCompiler = DOMCompiler || {
     'use strict';
     var dirs = this._getElDirectives(el),
         dir, scopeCreated;
-    for (var i = 0; i < dirs.length; i += 1) {
-      dir = Provider.get(dirs[i].name + Provider.DIRECTIVES_SUFFIX);
+    dirs.forEach(function (d) {
+      dir = Provider.get(d.name + Provider.DIRECTIVES_SUFFIX);
       if (dir.scope && !scopeCreated) {
         scope = scope.$new();
         scopeCreated = true;
       }
-      dir.link(el, scope, dirs[i].value);
-    }
+      dir.link(el, scope, d.value);
+    });
     var children = Array.prototype.slice.call(el.children).map(function (c) {
       return c;
     });
-    for (i = 0; i < children.length; i += 1) {
-      this.compile(el.children[i], scope);
-    }
+    children.forEach(function (c) {
+      this.compile(c, scope);
+    }, this);
   },
   _getElDirectives: function (el) {
     'use strict';
