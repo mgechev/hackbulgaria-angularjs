@@ -1,0 +1,7 @@
+<h3>Todo items</h3>
+<ul>
+  <li data-ng-repeat="todo in todos">
+    <a href="#/todo/{{todo.id}}">{{todo.title}}</a>
+    <a href="#" data-ng-click="remove(todo)">[X]</a>
+  </li>
+</ul>
