@@ -22,6 +22,19 @@
         }
       }
     })
+    .when('/edit/:id', {
+      templateUrl: 'partials/edit.html',
+      controller: 'TodoCtrl',
+      resolve: {
+        todo: function (Todo, $route) {
+          return Todo.get(parseInt($route.current.params.id));
+        }
+      }
+    })
+    .when('/add', {
+      templateUrl: 'partials/add.html',
+      controller: 'TodoCtrl',
+    })
     .otherwise({ redirectTo: '/todos' });
   });
 }());

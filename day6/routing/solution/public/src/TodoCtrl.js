@@ -1,7 +1,14 @@
 /* global TodoApp */
 
-TodoApp.controller('TodoCtrl', function ($scope, todo) {
+TodoApp.controller('TodoCtrl', function ($scope, Todo, todo) {
   'use strict';
-  console.log(todo);
-  $scope.todo = todo;
+  $scope.todo = new Todo(todo);
+
+  $scope.save = function () {
+    $scope.todo.save();
+  };
+
+  $scope.remove = function () {
+    $scope.todo.destroy();
+  };
 });
