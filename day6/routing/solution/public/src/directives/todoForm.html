@@ -1,5 +1,5 @@
-<form novalidate name="todo">
-  <span class="error" data-ng-show="!todo.titleInput.$valid && !todo.titleInput.$pristine">The name of the todo is required</span>
+<form novalidate name="todoForm">
+  <span class="error" data-ng-show="!todoForm.titleInput.$valid && !todoForm.titleInput.$pristine">The name of the todo is required</span>
   <br>
   <label for="titleInput">Todo title:
     <input type="text" name="titleInput" class="form-input" data-ng-model="todo.title" required>

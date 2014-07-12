@@ -1,6 +1,6 @@
 /* global TodoApp */
 
-TodoApp.controller('TodoCtrl', function ($scope, Todo, todo) {
+TodoApp.controller('TodoCtrl', function ($scope, $location, Todo, todo) {
   'use strict';
   $scope.todo = new Todo(todo);
 
@@ -10,9 +10,11 @@ TodoApp.controller('TodoCtrl', function ($scope, Todo, todo) {
 
   $scope.save = function () {
     $scope.todo.save();
+    $location.path('/');
   };
 
   $scope.remove = function () {
     $scope.todo.destroy();
+    $location.path('/');
   };
 });
