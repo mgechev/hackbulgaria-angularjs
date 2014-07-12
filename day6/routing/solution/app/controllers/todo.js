@@ -12,13 +12,12 @@ exports.list = function (req, res) {
 
 exports.save = function (req, res) {
   var todo = new Todo(req.body);
-  // update
-  if (todo.id) {
-    todo.update();
-  } else {
-    todo.save();
-  }
-  res.json(todo);
+  res.json(todo.save());
+};
+
+exports.update = function (req, res) {
+  var todo = new Todo(req.body);
+  res.json(todo.update());
 };
 
 exports.delete = function (req, res) {

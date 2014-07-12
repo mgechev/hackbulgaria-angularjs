@@ -26,6 +26,9 @@
       templateUrl: 'partials/edit.html',
       controller: 'TodoCtrl',
       resolve: {
+        todos: function (Todo) {
+          return Todo.getList();
+        },
         todo: function (Todo, $route) {
           return Todo.get(parseInt($route.current.params.id));
         }
@@ -34,6 +37,14 @@
     .when('/add', {
       templateUrl: 'partials/add.html',
       controller: 'TodoCtrl',
+      resolve: {
+        todos: function (Todo) {
+          return Todo.getList();
+        },
+        todo: function ($q) {
+          return $q.when({});
+        }
+      }
     })
     .otherwise({ redirectTo: '/todos' });
   });

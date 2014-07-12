@@ -12,12 +12,16 @@ TodoApp.factory('Todo', function ($http, $q) {
   }
 
   Todo.prototype.save = function () {
-    var idx = todos.push(this),
-        self = this;
+    todos.push(this);
+    var self = this;
     $http.post('/todo', this)
     .then(function (d) {
       self.id = d.data.id;
     });
+  };
+
+  Todo.prototype.update = function () {
+    $http.post('/todo/' + this.id, this);
   };
 
   Todo.prototype.destroy = function () {
