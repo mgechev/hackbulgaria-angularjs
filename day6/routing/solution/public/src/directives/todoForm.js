@@ -9,6 +9,7 @@ TodoApp.directive('todoForm', function () {
       save: '&'
     },
     link: function (scope) {
+      scope.todo.until = new Date(scope.todo.until);
       scope.saveData = function () {
         scope.todo.until = scope.todoDate + '/' + scope.todoTime;
         scope.save(scope.todo);
