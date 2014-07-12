@@ -1,0 +1,10 @@
+<label for="title-input">Todo title:
+  <input type="text" name="title-input" class="form-input" data-ng-model="todoTitle">
+</label>
+<br>
+<label for="until-date-input">Completed until:
+  <input type="date" data-ng-model="todoDate" class="form-input" name="until-date-input">
+  <input type="time" data-ng-model="todoTime" class="form-input" name="until-date-input">
+</label>
+<br>
+<button data-ng-click="saveData()" class="btn btn-primary">Save</button>

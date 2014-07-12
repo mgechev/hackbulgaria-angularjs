@@ -10,9 +10,15 @@ exports.list = function (req, res) {
   res.json(todos);
 };
 
-exports.add = function (req, res) {
+exports.save = function (req, res) {
   var todo = new Todo(req.body);
-  res.json(todo.save());
+  // update
+  if (todo.id) {
+    todo.update();
+  } else {
+    todo.save();
+  }
+  res.json(todo);
 };
 
 exports.delete = function (req, res) {

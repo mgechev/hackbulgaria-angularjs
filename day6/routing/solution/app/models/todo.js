@@ -9,11 +9,19 @@ function Todo(data) {
 }
 
 Todo.prototype.save = function () {
-  var id = todos.push(this);
+  todos.push(this);
   this.id = counter;
   counter += 1;
-  console.log(this.id);
   return this;
+};
+
+Todo.prototype.update = function () {
+  todos = todos.map(function (todo) {
+    if (todo.id === this.id) {
+      return this;
+    }
+    return todo;
+  }, this);
 };
 
 Todo.prototype.destroy = function () {
