@@ -27,7 +27,9 @@ TodoApp.factory('Todo', function ($http) {
   };
 
   Todo.prototype.destroy = function () {
-    todos.splice(this.id, 1);
+    todos = todos.filter(function (todo) {
+      return todo.id !== this.id;
+    }, this);
     $http.delete('/todo/' + this.id);
   };
 
