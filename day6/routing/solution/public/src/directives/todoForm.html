@@ -2,12 +2,11 @@
   <span class="error" data-ng-show="!todoForm.titleInput.$valid && !todoForm.titleInput.$pristine">The name of the todo is required</span>
   <br>
   <label for="titleInput">Todo title:
-    <input type="text" name="titleInput" class="form-input" data-ng-model="todo.title" required>
+    <input type="text" name="titleInput" class="form-control" data-ng-model="todo.title" required>
   </label>
   <br>
-  <label for="until-date-input">Completed until:
-    <input type="date" data-ng-model="todoDate" class="form-input" name="until-date-input">
-    <input type="time" data-ng-model="todoTime" class="form-input" name="until-time-input">
+  <label for="descriptionInput">Description:
+    <textarea name="descriptionInput" required data-ng-minlength="5" data-ng-bind="todo.description" class="form-control"></textarea>
   </label>
   <br>
   <button data-ng-click="saveData()" class="btn btn-primary">Save</button>

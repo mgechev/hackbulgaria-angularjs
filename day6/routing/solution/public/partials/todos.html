@@ -1,5 +1,8 @@
 <h3>Todo items</h3>
-<ul>
+<p data-ng-hide="todos.length">
+  No todo items
+</p>
+<ul data-ng-show="todos.length">
   <li data-ng-repeat="todo in todos">
     <a href="#/todo/{{todo.id}}">{{todo.title}}</a>
   </li>

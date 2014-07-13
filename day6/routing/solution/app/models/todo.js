@@ -5,7 +5,7 @@ function Todo(data) {
   this.id = data.id;
   this.title = data.title;
   this.created = data.created;
-  this.until = data.until;
+  this.description = data.description;
 }
 
 Todo.prototype.save = function () {
