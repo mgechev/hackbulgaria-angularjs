@@ -34,7 +34,7 @@ TodoApp.factory('Todo', function ($http, $q) {
   };
 
   Todo.prototype.updateState = function () {
-    $http.put('/todo/' + this.id, this);
+    $http.post('/todo/state/' + this.id, this);
   };
 
   Todo.prototype.destroy = function () {
