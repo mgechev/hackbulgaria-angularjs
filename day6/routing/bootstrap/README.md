@@ -91,3 +91,27 @@ Inside `src/directives/todoForm.html`.
 12. Add `ng-click` property to the form button, which invokes the `saveData` method attached to the scope.
 13. Add `ng-disabled` attribute to the button, which makes the button disabled when the form is invalid.
 
+
+## Partials
+
+### todos.html
+
+1. Add `ng-hide` attribute to the first paragraph. It should make the paragraph visible once there are no todo items in the exposed `todos` collection.
+2. Add `ng-show` attribute to the unordered list. It should make the paragraph visible once there are todo items in the exposed `todos` collection.
+3. On change of the checkbox invoke the `updateState` method, attached to the scope. As single argument `updateState` accepts the current todo.
+4. In the bottom of the template add `href` to the link equals to: `#/add`.
+
+
+### todo.html
+
+1. Add appropriate bindings to the span elements associated with the different element properties.
+2. Add `href` to the "Edit" link equals to: `#/edit/{{todo.id}}`.
+3. Invoke the `remove` method, attached to the scope when the `Remove` button is clicked.
+
+### edit.html
+
+1. Add the `todo-form` directive in the bottom of the page. As value of the `todo` attribute pass the name of the `todo` instance attached to the scope. As value of the `save` property add call of the `update` method, attached to the scope.
+
+### add.html
+
+1. Add the `todo-form` directive in the bottom of the page. As value of the `todo` attribute pass the name of the `todo` instance attached to the scope. As value of the `save` property add call of the `save` method, attached to the scope.
