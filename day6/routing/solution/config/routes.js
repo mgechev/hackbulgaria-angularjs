@@ -4,5 +4,6 @@ module.exports = function (app) {
   app.get('/todo', todo.list);
   app.post('/todo', todo.save);
   app.post('/todo/:id', todo.update);
+  app.put('/todo/:id', todo.updateState);
   app.delete('/todo/:id', todo.delete);
 };

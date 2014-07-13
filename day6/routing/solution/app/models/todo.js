@@ -6,6 +6,7 @@ function Todo(data) {
   this.title = data.title;
   this.created = data.created;
   this.description = data.description;
+  this.completed = data.completed || false;
 }
 
 Todo.prototype.save = function () {
@@ -24,6 +25,12 @@ Todo.prototype.update = function () {
   }, this);
 };
 
+Todo.prototype.updateState = function () {
+  var todo = Todo.find(this.id);
+  todo.completed = this.completed;
+  return todo;
+};
+
 Todo.prototype.destroy = function () {
   todos.splice(this.id, 1);
   return this;
@@ -39,6 +46,7 @@ Todo.getList = function () {
   return todos.map(function (t) {
     return {
       title: t.title,
+      completed: t.completed,
       id: t.id
     };
   });

@@ -5,10 +5,11 @@ TodoApp.factory('Todo', function ($http, $q) {
   var todos = null;
 
   function Todo(data) {
+    this.id = data.id;
     this.title = data.title;
     this.description = data.description;
+    this.completed = data.completed;
     this.created = new Date();
-    this.id = data.id;
   }
 
   Todo.prototype.save = function () {
@@ -21,7 +22,19 @@ TodoApp.factory('Todo', function ($http, $q) {
   };
 
   Todo.prototype.update = function () {
+    // In case of server error may have inconsistencies
+    todos = todos.map(function (todo) {
+      if (todo.id === this.id) {
+        return this;
+      }
+      return todo;
+    }, this);
+    // PUT would be better
     $http.post('/todo/' + this.id, this);
+  };
+
+  Todo.prototype.updateState = function () {
+    $http.put('/todo/' + this.id, this);
   };
 
   Todo.prototype.destroy = function () {

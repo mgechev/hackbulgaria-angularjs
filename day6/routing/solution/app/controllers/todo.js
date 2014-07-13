@@ -20,6 +20,12 @@ exports.update = function (req, res) {
   res.json(todo.update());
 };
 
+exports.updateState = function (req, res) {
+  var todo = new Todo(req.body);
+  res.json(todo.updateState());
+};
+
+
 exports.delete = function (req, res) {
   var todo = new Todo.find(parseInt(req.params.id));
   res.json(todo.destroy());

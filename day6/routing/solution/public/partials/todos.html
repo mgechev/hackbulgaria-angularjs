@@ -4,6 +4,7 @@
 </p>
 <ul data-ng-show="todos.length">
   <li data-ng-repeat="todo in todos">
+    <input type="checkbox" data-ng-model="todo.completed" data-ng-change="updateState(todo)">
     <a href="#/todo/{{todo.id}}">{{todo.title}}</a>
   </li>
 </ul>
