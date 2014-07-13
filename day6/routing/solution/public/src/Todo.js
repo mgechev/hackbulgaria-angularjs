@@ -7,7 +7,7 @@ TodoApp.factory('Todo', function ($http, $q) {
   function Todo(data) {
     this.title = data.title;
     this.description = data.description;
-    this.created = data.date;
+    this.created = new Date();
     this.id = data.id;
   }
 

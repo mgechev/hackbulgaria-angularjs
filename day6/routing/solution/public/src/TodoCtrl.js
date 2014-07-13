@@ -6,6 +6,7 @@ TodoApp.controller('TodoCtrl', function ($scope, $location, Todo, todo) {
 
   $scope.update = function () {
     $scope.todo.update();
+    $location.path('/');
   };
 
   $scope.save = function () {

@@ -10,7 +10,9 @@ TodoApp.directive('todoForm', function () {
     },
     link: function (scope) {
       scope.saveData = function () {
-        scope.save(scope.todo);
+        if (scope.todoForm.$valid) {
+          scope.save(scope.todo);
+        }
       };
     }
   };

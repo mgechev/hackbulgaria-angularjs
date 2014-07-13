@@ -1,7 +1,7 @@
 var Todo = require('../models/todo');
 
 exports.todo = function (req, res) {
-  var todo = Todo.find(req.params.id);
+  var todo = Todo.find(parseInt(req.params.id));
   res.json(todo);
 };
 
@@ -21,6 +21,6 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  var todo = new Todo.find(req.params.id);
+  var todo = new Todo.find(parseInt(req.params.id));
   res.json(todo.destroy());
 };
