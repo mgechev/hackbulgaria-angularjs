@@ -71,6 +71,11 @@ var Q = (function () {
           resolved = 0,
           done = false;
       promises.forEach(function (promise, i) {
+        /* In case we have already rejected promise
+         * we don't want to iterate over all other promises
+         * since there is no way in which the transaction to be
+         * successful.
+         */
         if (done) {
           return;
         }
