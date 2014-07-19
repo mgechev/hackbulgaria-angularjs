@@ -19,7 +19,8 @@
              <div class="lib-row lib-desc">
                Followers : <b ng-bind="user.followers"></b><br>
                Following : <b ng-bind="user.following"></b><br>
-               Created at: <b ng-bind="user.createdAt"></b><br>
+               Created at: <b ng-bind="user.createdAt"></b><br><br><br>
+               <a ng-href="#/repos/{{user.username}}">Repositories</a>
              </div>
            </div>
          </div>

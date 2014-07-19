@@ -1,5 +1,5 @@
 GitHubStats.factory('User',
-  function (GITHUB_API, req, storage, $cacheFactory, Repo) {
+  function (GITHUB_API, CachableModel, req, storage, $cacheFactory, Repo) {
   'use strict';
 
   var USERS_PREFIX = 'users',
@@ -19,6 +19,7 @@ GitHubStats.factory('User',
         return Repo.get(this.username);
       }.bind(this)
     });
+    CachableModel.call(this);
   }
 
   User.getUsernames = function () {
@@ -36,19 +37,12 @@ GitHubStats.factory('User',
   };
 
   User.get = function (username) {
-    var cached = cache.get(username);
-    if (cached) {
-      return cached;
-    } else {
-      return req.get(GITHUB_API + '/' + USERS_PREFIX + '/' + username)
-        .then(function (res) {
-          var user = new User(res.data);
-          cache.put(username, user);
-          return user;
-        }.bind(this));
-    }
+    return CachableModel.get.call(this,
+      GITHUB_API + '/' + USERS_PREFIX + '/{{username}}',
+      { username: username }, User);
   };
 
+  User.prototype = Object.create(CachableModel.prototype);
 
   return User;
 });
