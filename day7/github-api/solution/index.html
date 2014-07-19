@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="github-stats">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">GitHub</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div gh-alert></div>
+  </header>
+  <section ng-view>
+  </section>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="src/app.js"></script>
+  <script src="src/controllers/HomeCtrl.js"></script>
+  <script src="src/controllers/UserCtrl.js"></script>
+  <script src="src/services/models/User.js"></script>
+  <script src="src/services/models/Repo.js"></script>
+  <script src="src/services/req.js"></script>
+  <script src="src/services/storage.js"></script>
+  <script src="src/directives/ghAlert.js"></script>
+</body>
+</html>
