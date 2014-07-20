@@ -16,7 +16,7 @@ GitHubStats.factory('User',
     this.htmlUrl = config.html_url;
     Object.defineProperty(this, 'repos', {
       get: function () {
-        return Repo.get(this.username);
+        return Repo.getAllForUser(this.username);
       }.bind(this)
     });
     CachableModel.call(this);

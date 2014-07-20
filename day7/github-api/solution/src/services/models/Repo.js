@@ -15,13 +15,22 @@ GitHubStats.factory('Repo',
     CachableModel.call(this);
   }
 
-  Repo.get = function (username) {
+  Repo.getAllForUser = function (username) {
     return CachableModel.get.call(this, {
         url: GITHUB_API + '/' + REPO_PREFIX +
         '/{{username}}/' + REPO_SUFFIX,
         context: { username: username },
         isArray: true,
         constructor: Repo
+      });
+  };
+
+  Repo.get = function (username, repo) {
+    return Repo.getAllForUser(username)
+      .then(function (repos) {
+        return repos.filter(function (r) {
+          return r.name === repo;
+        }).pop();
       });
   };
 
