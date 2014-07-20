@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header ng-controller="HeaderCtrl">
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -17,8 +17,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="#/stats/users">User stats</a></li>
-            <li><a href="#/stats/repos">Repos stats</a></li>
           </ul>
+          <img src="images/loading.gif" ng-show="loading" class="loading-image">
         </div>
       </div>
     </nav>
@@ -37,6 +37,7 @@
   <script src="src/controllers/UserReposCtrl.js"></script>
   <script src="src/controllers/UsersStatsCtrl.js"></script>
   <script src="src/controllers/RepoCtrl.js"></script>
+  <script src="src/controllers/HeaderCtrl.js"></script>
   <script src="src/services/models/CachableModel.js"></script>
   <script src="src/services/models/User.js"></script>
   <script src="src/services/models/Repo.js"></script>
