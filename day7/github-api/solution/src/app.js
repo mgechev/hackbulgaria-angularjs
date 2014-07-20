@@ -67,7 +67,17 @@ GitHubStats.config(function ($routeProvider, $httpProvider) {
         }
       }
     })
-    .when('/stats/repos', {
+    .when('/stats/users/:username', {
+      controller: 'UserRepoStatsCtrl',
+      templateUrl: 'partials/user-repo-stats.html',
+      resolve: {
+        repos: function (User, $route) {
+          return User.get($route.current.params.username)
+                .then(function (user) {
+                  return user.repos;
+                });
+        }
+      }
     })
     .otherwise({ redirectTo: '/home' });
 });

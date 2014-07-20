@@ -43,7 +43,6 @@ body {
     font-size: 13px;
 }
 .lib-panel .lib-row.lib-desc a{
-    position: absolute;
     width: 100%;
     bottom: 10px;
     left: 20px;
