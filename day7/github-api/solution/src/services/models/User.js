@@ -12,6 +12,7 @@ GitHubStats.factory('User',
     this.createdAt = config.created_at;
     this.followers = config.followers;
     this.following = config.following;
+    this.publicReposCount = config.public_repos;
     this.type = config.type;
     this.htmlUrl = config.html_url;
     Object.defineProperty(this, 'repos', {

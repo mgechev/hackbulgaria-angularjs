@@ -1,4 +1,6 @@
 GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
+  'use strict';
+
   var userFollowers = users.map(function (user) {
     return {
       c: [{
@@ -19,6 +21,15 @@ GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
     };
   });
 
+  var userRepos = users.map(function (user) {
+    return {
+      c: [{
+        v: user.username
+      }, {
+        v: user.publicReposCount
+      }]
+    };
+  });
 
   $scope.userFollowers = {
     'type': 'BarChart',
@@ -58,7 +69,7 @@ GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
   };
 
   $scope.userFollowing = {
-    'type': 'BarChart',
+    'type': 'ColumnChart',
     'displayed': true,
     'data': {
       'cols': [
@@ -79,6 +90,43 @@ GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
     },
     'options': {
       'title': 'User following',
+      'fill': 10,
+      'displayExactValues': true,
+      'vAxis': {
+        'title': 'Users',
+        'gridlines': {
+          'count': 5
+        }
+      },
+      'hAxis': {
+        'title': 'Following'
+      }
+    },
+    'formatters': {}
+  };
+
+  $scope.userRepos = {
+    'type': 'BarChart',
+    'displayed': true,
+    'data': {
+      'cols': [
+        {
+          'id': 'user',
+          'label': 'User',
+          'type': 'string',
+          'p': {}
+        },
+        {
+          'id': 'repos',
+          'label': 'Repositories',
+          'type': 'number',
+          'p': {}
+        }
+      ],
+      'rows': userRepos,
+    },
+    'options': {
+      'title': 'User repos count',
       'fill': 20,
       'displayExactValues': true,
       'vAxis': {
@@ -88,10 +136,10 @@ GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
         }
       },
       'hAxis': {
-        'title': 'Following'
+        'title': 'Repos count'
       }
     },
     'formatters': {}
-  }
+  };
 
 });
