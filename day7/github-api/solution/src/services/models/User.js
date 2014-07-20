@@ -1,5 +1,5 @@
 GitHubStats.factory('User',
-  function (GITHUB_API, CachableModel, req, storage, $cacheFactory, Repo) {
+  function (GITHUB_API, CachableModel, storage, $cacheFactory, Repo) {
   'use strict';
 
   var USERS_PREFIX = 'users',
