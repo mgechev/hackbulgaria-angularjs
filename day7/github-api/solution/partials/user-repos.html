@@ -1,1 +1,12 @@
-<h1>REPOS</h1>
+<h2>Repositories for <span ng-bind="user.username"></span></h2>
+
+<p ng-hide="repos.length">
+  No repositories
+</p>
+
+<ul ng-show="repos.length">
+  <li ng-repeat="repo in repos">
+    <a ng-href="#/repos/{{user.username}}/{{repo.name}}" ng-bind="repo.name">
+    </a>
+  </li>
+</ul>

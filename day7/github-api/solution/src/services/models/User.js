@@ -37,9 +37,12 @@ GitHubStats.factory('User',
   };
 
   User.get = function (username) {
-    return CachableModel.get.call(this,
-      GITHUB_API + '/' + USERS_PREFIX + '/{{username}}',
-      { username: username }, User);
+    return CachableModel.get.call(this, {
+        url: GITHUB_API + '/' + USERS_PREFIX + '/{{username}}',
+        context: { username: username },
+        isArray: false,
+        constructor: User
+      });
   };
 
   User.prototype = Object.create(CachableModel.prototype);

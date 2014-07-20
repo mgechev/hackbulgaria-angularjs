@@ -35,7 +35,13 @@ GitHubStats.config(function ($routeProvider, $httpProvider) {
       templateUrl: 'partials/user-repos.html',
       resolve: {
         repos: function (User, $route) {
-          return User.get($route.current.params.username).repos;
+          return User.get($route.current.params.username)
+                .then(function (user) {
+                  return user.repos;
+                });
+        },
+        user: function (User, $route) {
+          return User.get($route.current.params.username);
         }
       }
     })
