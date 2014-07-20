@@ -1,4 +1,4 @@
-var GitHubStats = angular.module('github-stats', ['ngRoute', 'utils']);
+var GitHubStats = angular.module('github-stats', ['ngRoute', 'utils', 'ngGrid', 'googlechart']);
 
 GitHubStats.constant('GITHUB_API', 'https://api.github.com');
 
@@ -57,6 +57,17 @@ GitHubStats.config(function ($routeProvider, $httpProvider) {
           return User.get($route.current.params.username);
         }
       }
+    })
+    .when('/stats/users', {
+      controller: 'UsersStatsCtrl',
+      templateUrl: 'partials/users-stats.html',
+      resolve: {
+        users: function (User) {
+          return User.all();
+        }
+      }
+    })
+    .when('/stats/repos', {
     })
     .otherwise({ redirectTo: '/home' });
 });

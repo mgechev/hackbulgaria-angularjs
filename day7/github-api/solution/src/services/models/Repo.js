@@ -12,6 +12,8 @@ GitHubStats.factory('Repo',
     this.language = config.language;
     this.starsCount = config.stargazers_count;
     this.url = config.url;
+    this.fork = config.fork;
+    this.htmlUrl = config.html_url;
     CachableModel.call(this);
   }
 

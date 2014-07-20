@@ -4,9 +4,5 @@
   No repositories
 </p>
 
-<ul ng-show="repos.length">
-  <li ng-repeat="repo in repos">
-    <a ng-href="#/repos/{{user.username}}/{{repo.name}}" ng-bind="repo.name">
-    </a>
-  </li>
-</ul>
+<div ng-show="repos.length" class="gridStyle" ng-grid="gridOptions"></div>
+

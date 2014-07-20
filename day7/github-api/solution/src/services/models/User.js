@@ -1,5 +1,5 @@
 GitHubStats.factory('User',
-  function (GITHUB_API, CachableModel, storage, $cacheFactory, Repo) {
+  function (GITHUB_API, CachableModel, storage, $q, $cacheFactory, Repo) {
   'use strict';
 
   var USERS_PREFIX = 'users',
@@ -34,6 +34,12 @@ GitHubStats.factory('User',
   User.removeUsername = function (username) {
     usernamesList.splice(usernamesList.indexOf(username), 1);
     storage.put('users', usernamesList);
+  };
+
+  User.all = function () {
+    return $q.all(usernamesList.map(function (user) {
+      return User.get(user);
+    }));
   };
 
   User.get = function (username) {
