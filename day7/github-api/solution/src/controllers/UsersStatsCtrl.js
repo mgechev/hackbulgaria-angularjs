@@ -1,5 +1,5 @@
 GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
-  var rows = users.map(function (user) {
+  var userFollowers = users.map(function (user) {
     return {
       c: [{
         v: user.username
@@ -9,40 +9,89 @@ GitHubStats.controller('UsersStatsCtrl', function ($scope, users) {
     };
   });
 
-  $scope.chartObject = {
-    "type": "BarChart",
-    "displayed": true,
-    "data": {
-      "cols": [
+  var userFollowing = users.map(function (user) {
+    return {
+      c: [{
+        v: user.username
+      }, {
+        v: user.following
+      }]
+    };
+  });
+
+
+  $scope.userFollowers = {
+    'type': 'BarChart',
+    'displayed': true,
+    'data': {
+      'cols': [
         {
-          "id": "user",
-          "label": "User",
-          "type": "string",
-          "p": {}
+          'id': 'user',
+          'label': 'User',
+          'type': 'string',
+          'p': {}
         },
         {
-          "id": "followers",
-          "label": "Followers",
-          "type": "number",
-          "p": {}
+          'id': 'followers',
+          'label': 'Followers',
+          'type': 'number',
+          'p': {}
         }
       ],
-      "rows": rows,
+      'rows': userFollowers,
     },
-    "options": {
-      "title": "Followers per user",
-      "fill": 20,
-      "displayExactValues": true,
-      "vAxis": {
-        "title": "Users",
-        "gridlines": {
-          "count": 10
+    'options': {
+      'title': 'Followers per user',
+      'fill': 20,
+      'displayExactValues': true,
+      'vAxis': {
+        'title': 'Users',
+        'gridlines': {
+          'count': 10
         }
       },
-      "hAxis": {
-        "title": "Followers"
+      'hAxis': {
+        'title': 'Followers'
       }
     },
-    "formatters": {}
+    'formatters': {}
+  };
+
+  $scope.userFollowing = {
+    'type': 'BarChart',
+    'displayed': true,
+    'data': {
+      'cols': [
+        {
+          'id': 'user',
+          'label': 'User',
+          'type': 'string',
+          'p': {}
+        },
+        {
+          'id': 'following',
+          'label': 'Following',
+          'type': 'number',
+          'p': {}
+        }
+      ],
+      'rows': userFollowing,
+    },
+    'options': {
+      'title': 'User following',
+      'fill': 20,
+      'displayExactValues': true,
+      'vAxis': {
+        'title': 'Users',
+        'gridlines': {
+          'count': 10
+        }
+      },
+      'hAxis': {
+        'title': 'Following'
+      }
+    },
+    'formatters': {}
   }
+
 });
