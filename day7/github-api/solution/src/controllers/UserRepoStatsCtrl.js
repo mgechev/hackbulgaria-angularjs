@@ -11,18 +11,6 @@ GitHubStats.controller('UserRepoStatsCtrl', function ($scope, repos) {
     };
   });
 
-  var langsCols = [{
-    id: 'lang',
-    label: 'Language',
-    type: 'string',
-    p: {}
-  }, {
-    id: 'count',
-    label: 'Count',
-    type: 'number',
-    p: {}
-  }];
-
   var reposCount = {};
 
   repos.forEach(function (repo) {
@@ -78,8 +66,6 @@ GitHubStats.controller('UserRepoStatsCtrl', function ($scope, repos) {
     'formatters': {}
   };
 
-
-
   $scope.starsStats = {
     'type': 'BarChart',
     'displayed': true,
@@ -116,6 +102,4 @@ GitHubStats.controller('UserRepoStatsCtrl', function ($scope, repos) {
     },
     'formatters': {}
   };
-
-
 });
