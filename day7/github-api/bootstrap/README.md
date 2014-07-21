@@ -101,12 +101,13 @@ Set properties called `repos` and `user` to the current scope, which values are 
 
 More about ngGrid [here](https://angular-ui.github.io/ng-grid/).
 7. Define a controller called `UserRepoStatsCtrl`. Inside its body aggregate the passed `repos` data in order to show the following charts:
-  - PieChart, which shows how many projects of each languages has the given user
-  - BarChart, showing the repositories with more than a 100 stars for the given user
+  - PieChart, which shows how many projects of each languages has the given user (the scope property used for rendering the chart should be called `languageStats`)
+  - BarChart, showing the repositories with more than a 100 stars for the given user (the scope property used for rendering the chart should be called `starsStats`)
+
 8. Define a controller called `UsersStatsCtrl`. Inside its body aggragate the passed `users` data in order to show the following charts:
-  - BarChart, which shows how many followers the different users have
-  - BarChart, showing how many users are been followed by the given users
-  - BarChart, which shows how many repositories do the different users have
+  - BarChart, which shows how many followers the different users have (the scope property used for rendering the chart should be called `userFollowers`)
+  - BarChart, showing how many users are been followed by the given users (the scope property used for rendering the chart should be called `userFollowing`)
+  - BarChart, which shows how many repositories do the different users have (the scope property used for rendering the chart should be called `userRepos`)
 
 More about the AngularJS charts used in the project [here](https://bouil.github.io/angular-google-chart/).
 
