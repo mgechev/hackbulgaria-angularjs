@@ -123,4 +123,52 @@ More about the AngularJS charts used in the project [here](https://bouil.github.
 
 ## Partials
 
+### index.html
+
+1. Associate `HeaderCtrl` with the `header` element
+2. Add `ng-view` attribute to the `section` element.
+3. To `div#alert-container` add attribute `gh-alert`.
+4. Show the loading gif based on the value of the `loading` property.
+
+
+### home.html
+
+1. Add two-way data-binding between the input field and a model called `currentUser`.
+2. On click of the add button invoke the `add` method
+3. When the array `users` is empty show the label `There are no any users`.
+4. When the array `users` is not empty show the unordered list
+5. Iterate over each user and bind the span element to the user's username
+6. On click of the `[X]` link invoke the `remove` method with the current user
+7. In the anchor inside the unordered list (the one which wraps the span element), using the interpolation directive set href equals to `#/users/{{user}}`.
+
+### repo.html
+
+1. Inside the `img` element use `ng-src` directive in order to show the current user's avatar photo. Use `user.avatarUrl`.
+2. Near the label `Repository` bind the span element to the appropriate property in order to show the repository's name.
+3. Near the labels `Stargazers`, `Forks` and `Created at` bind the elements to the appopriate values.
+
+### user-repo-stats.html
+
+1. To the first and the second `div` elements add the attribute `google-chart`.
+2. To the first div element add attribute `chart` with value `languageStats`.
+2. To the second div element add attribute `chart` with value `starsStats`.
+
+### user-repos.html
+
+1. Bind the element `h2>span` to the username of the current user
+2. Hide the label `No repositories` if the current user has any repos
+3. Show the div element if the current user has any repos. Add attribute called `ng-grid` to the div element. The value of the attribute should be `gridOptions`. Notice that you have you have defined property called `gridOptions` inside your `UserReposCtrl`, which defines the configuration of `ng-grid`.
+
+### user.html
+
+1. Show the avatar of the current user by using `ng-src` and the user's avatarUrl.
+2. Bind the appopriate values to the elements next to `Followers`, `Following`, `Created at`.
+3. Set appropriate values to the href attribute of the links to the user's repositories and user's statistics.
+
+### users-stats.html
+
+1. To all div elements add the attribute `google-chart`.
+2. To the first div element add attribute `chart` with value `userFollowers`.
+3. To the second div element add attribute `chart` with value `userFollowing`.
+4. To the third div element add attribute `chart` with value `userRepos`.
 

@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header ng-controller="HeaderCtrl">
+  <header>
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -18,13 +18,13 @@
           <ul class="nav navbar-nav">
             <li><a href="#/stats/users">User stats</a></li>
           </ul>
-          <img src="images/loading.gif" ng-show="loading" class="loading-image">
+          <img src="images/loading.gif" class="loading-image">
         </div>
       </div>
     </nav>
-    <div gh-alert></div>
+    <div id="alert-container"></div>
   </header>
-  <section ng-view>
+  <section>
   </section>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
