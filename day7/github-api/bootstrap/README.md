@@ -36,7 +36,7 @@ Now open [http://localhost:3000](http://localhost:3000).
 ## Services
 
 1. Define module called `utils`.
-2. Using `module.factory` and the `utils` module, define a service called `req`. `req` should export a single method called `get`, which delegates its execution to `$http.get`. It should wrap `$http` by broadcasting an error message using the `$rootScope`, once the HTTP GET request fails. If the request was successful `req`'s get method should return the response, received from the `$http.get` call. 
+2. Using `module.factory` and the `utils` module, define a service called `req`. `req` should export a single method called `get`, which delegates its execution to `$http.get`. It should wrap `$http` by broadcasting an error message using the `$rootScope`, once the HTTP GET request fails (the broadcasted message should be with topic `error` and value equals to `res.data.message`). If the request was successful `req`'s get method should return the response, received from the `$http.get` call. 
 3. Using the `github.stats` module and the `.factory` method define a service called `CachableModel`. It should accept as dependencies `$interpolate`, `$cacheFactory`, `$q` and `req`.
 4. Inside the factory method of the service define a local object literal called `cache`.
 5. Inside the factory method of the service define a constructor function called `CachableModel`, it should have a single static method called `get`, which accepts a `config` object as argument. The config object has the following properties:
@@ -88,9 +88,19 @@ For more information review the [GitHub API Docs](https://developer.github.com/v
 
 ## Controllers
 
+1. Define a controller called `HeaderCtrl`, which accepts `$scope` as dependency. Inside the body of the controller add event handlers for the events `$routeChangeSuccess`, `$routeChangeStart`, `$routeChangeError`. Inside the event handlers of these events change the value of a property called `loading` attached to the current scope. The value of the property should be `true` if the route is currently being changed, otherwise it should be equals to false (do you find any advantages in using controller instead of directive?).
+2. Define a controller called `HomeCtrl`. It should accept `$scope` and `User` as dependencies. Inside its body set property called `users` to the scope, which is equals to `User.getUsernames()`. Attach methods to the scope called `add` and `remove`, which add and respectively remove given username calling the methods `User.addUsername` and `User.removeUsername`.
+3. Define a controller called `RepoCtrl`, which accepts `$scope`, `repo` and `user` as dependencies and set the values of `$scope` properties called `$scope.repo` and `$scope.user`.
+
 
 ## Directives
 
+1. Define a directive called `ghAlert`, which factory accepts `$timeout` and `$rootScope` as dependencies.
+  - The directive should has an isolated scope
+  - It should have the template `<div class="alert alert-danger" role="alert" ng-bind="message"></div>`
+  - The directive should replace the current content
+  - Inside the link function of the directive catch the `$routeChangeStart` event and hide the current element inside the event handler.
+  - Add event listener to the `$rootScope`, which listens for the `error` event. Inside the event handler add property to the current scope, called `message`, with value equals to the second argument of the event handler. Show the current element and hide it using a 4000ms timeout.
 
 ## Partials
 
