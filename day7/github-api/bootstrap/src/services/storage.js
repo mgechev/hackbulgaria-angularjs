@@ -1,5 +1,4 @@
 /* global localStorage, angular */
-
 angular.module('utils', []).provider('storage', function () {
   'use strict';
   var keyName = 'todo-app';

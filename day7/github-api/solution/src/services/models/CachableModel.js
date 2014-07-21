@@ -7,9 +7,10 @@ GitHubStats.factory('CachableModel', function ($interpolate, $cacheFactory, $q, 
   }
 
   CachableModel.get = function (config) {
-    cache[config.url] = cache[config.url] || $cacheFactory(config.url);
     var url = $interpolate(config.url)(config.context);
-    var cached = cache[config.url].get(url);
+    cache[config.url] = cache[config.url] || $cacheFactory(config.url);
+    var currentCache = cache[config.url];
+    var cached = currentCache.get(url);
     if (cached) {
       return $q.when(cached);
     } else {
@@ -23,7 +24,7 @@ GitHubStats.factory('CachableModel', function ($interpolate, $cacheFactory, $q, 
           } else {
             obj = new config.constructor(res.data);
           }
-          cache[config.url].put(url, obj);
+          currentCache.put(url, obj);
           return obj;
         });
     }

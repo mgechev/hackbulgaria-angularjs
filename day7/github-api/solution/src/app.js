@@ -1,4 +1,4 @@
-var GitHubStats = angular.module('github-stats', ['ngRoute', 'utils', 'ngGrid', 'googlechart']);
+var GitHubStats = angular.module('github.stats', ['ngRoute', 'utils', 'ngGrid', 'googlechart']);
 
 GitHubStats.constant('GITHUB_API', 'https://api.github.com');
 

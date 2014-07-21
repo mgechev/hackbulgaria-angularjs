@@ -1,6 +1,6 @@
 /* global angular */
-
-angular.module('utils').factory('req', function ($rootScope, $http, $q) {
+angular.module('utils')
+.factory('req', function ($rootScope, $http, $q) {
   'use strict';
   return {
     get: function (url) {
