@@ -91,6 +91,15 @@ For more information review the [GitHub API Docs](https://developer.github.com/v
 1. Define a controller called `HeaderCtrl`, which accepts `$scope` as dependency. Inside the body of the controller add event handlers for the events `$routeChangeSuccess`, `$routeChangeStart`, `$routeChangeError`. Inside the event handlers of these events change the value of a property called `loading` attached to the current scope. The value of the property should be `true` if the route is currently being changed, otherwise it should be equals to false (do you find any advantages in using controller instead of directive?).
 2. Define a controller called `HomeCtrl`. It should accept `$scope` and `User` as dependencies. Inside its body set property called `users` to the scope, which is equals to `User.getUsernames()`. Attach methods to the scope called `add` and `remove`, which add and respectively remove given username calling the methods `User.addUsername` and `User.removeUsername`.
 3. Define a controller called `RepoCtrl`, which accepts `$scope`, `repo` and `user` as dependencies and set the values of `$scope` properties called `$scope.repo` and `$scope.user`.
+5. Define a controller called `UserCtrl`, which accepts `$scope` and `user` as arguments and sets property called `$scope.user` equals to `user`.
+6. Define a controller called `UserReposCtrl`. Inside its body you should define `gridOptions` property, used for configuring `ng-grid`. It should indicates that the data property of the grid is with name `repos` and the grid should visualize the following columns:
+  - `name`
+  - `starsCount`
+  - `createdAt`
+Inject the `$location` service and add `beforeSelectionChange` callback to the grid. Once the callback is being called change the location to: `$location.path($location.path() + '/' + row.entity.name);`, where `row` is the first argument of the callback.
+Set properties called `repos` and `user` to the current scope, which values are accepted as dependencies.
+
+More about ngGrid [here](https://angular-ui.github.io/ng-grid/).
 
 
 ## Directives
