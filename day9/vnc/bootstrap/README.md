@@ -30,7 +30,7 @@ yo angular
 
 Yeoman will ask you few questions, you should answer as follows:
 
-![Yeoman selection]("http://blog.mgechev.com/wp-content/uploads/2014/02/Screen-Shot-2014-02-08-at-19.29.28.png")
+![Yeoman selection](http://blog.mgechev.com/wp-content/uploads/2014/02/Screen-Shot-2014-02-08-at-19.29.28.png "Yeoman selection")
 
 We are going to use Bootstrap and \`angular-route.js\`. Wait few seconds and all required dependencies will be resolved.
 
@@ -87,34 +87,32 @@ angular.module('angApp', [
 For next step, replace the content of `app/views/main.html` with:
 
 ```"html
-&lt;div class="container"&gt;
-
-  &lt;div class="row" style="margin-top:20px"&gt;
-      &lt;div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3"&gt;
-      &lt;form role="form" name="vnc-form" novalidate&gt;
-        &lt;fieldset&gt;
-          &lt;h2&gt;VNC Login&lt;/h2&gt;
-          &lt;hr class="colorgraph"&gt;
-          &lt;div class="form-error" ng-bind="errorMessage"&gt;&lt;/div&gt;
-          &lt;div class="form-group"&gt;
-              &lt;input type="text" name="hostname" id="hostname-input" class="form-control input-lg" placeholder="Hostname" ng-model="host.hostname" required ng-minlength="3"&gt;
-          &lt;/div&gt;
-          &lt;div class="form-group"&gt;
-              &lt;input type="number" min="1" max="65535" name="port" id="port-input" class="form-control input-lg" placeholder="Port" ng-model="host.port" required&gt;
-          &lt;/div&gt;
-          &lt;div class="form-group"&gt;
-              &lt;input type="password" name="password" id="password-input" class="form-control input-lg" placeholder="Password" ng-model="host.password"&gt;
-          &lt;/div&gt;
-          &lt;div class="form-group"&gt;
-              &lt;a href="" class="btn btn-lg btn-primary btn-block" ng-click="login()"&gt;Login&lt;/a&gt;
-          &lt;/div&gt;
-          &lt;hr class="colorgraph"&gt;
-        &lt;/fieldset&gt;
-      &lt;/form&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;/div&gt;
+<div class="container">
+  <div class="row" style="margin-top:20px">
+      <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      <form role="form" name="vnc-form" novalidate>
+        <fieldset>
+          <h2>VNC Login</h2>
+          <hr class="colorgraph">
+          <div class="form-error" ng-bind="errorMessage"></div>
+          <div class="form-group">
+              <input type="text" name="hostname" id="hostname-input" class="form-control input-lg" placeholder="Hostname" ng-model="host.hostname" required ng-minlength="3">
+          </div>
+          <div class="form-group">
+              <input type="number" min="1" max="65535" name="port" id="port-input" class="form-control input-lg" placeholder="Port" ng-model="host.port" required>
+          </div>
+          <div class="form-group">
+              <input type="password" name="password" id="password-input" class="form-control input-lg" placeholder="Password" ng-model="host.password">
+          </div>
+          <div class="form-group">
+              <a href="" class="btn btn-lg btn-primary btn-block" ng-click="login()">Login</a>
+          </div>
+          <hr class="colorgraph">
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
 ```
 
 You should also insert some CSS at `app/styles/main.css`:
@@ -416,7 +414,7 @@ angular.module('clientApp').factory('Io', function () {
 Don&#8217;t forget to include the line:
 
 ```html
-&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+<script src="/socket.io/socket.io.js"></script>
 ```
 
 in `app/index.html`.
@@ -424,11 +422,11 @@ in `app/index.html`.
 And now, the last component is the VNC screen directive! But before looking at it, replace the content of `app/views/vnc.html` with the following markup:
 
 ```html
-&lt;div class="screen-wrapper"&gt;
-  &lt;vnc-screen&gt;&lt;/vnc-screen&gt;
-  &lt;button class="btn btn-danger" ng-show="connected()" ng-click="disconnect()"&gt;Disconnect&lt;/button&gt;
-  &lt;a href="#/" ng-hide="connected()"&gt;Back&lt;/a&gt;
-&lt;/div&gt;
+<div class="screen-wrapper">
+  <vnc-screen></vnc-screen>
+  <button class="btn btn-danger" ng-show="connected()" ng-click="disconnect()">Disconnect</button>
+  <a href="#/" ng-hide="connected()">Back</a>
+</div>
 ```
 
 as you see we include our VNC screen completely declaratively: `<vnc-screen></vnc-screen>`. In the markup above, we have few directives: ` ng-show="connected()", ng-click="disconnect()", ng-hide="connected()"`, they has expressions referring to methods attached to the scope in the `VncCtrl`:
