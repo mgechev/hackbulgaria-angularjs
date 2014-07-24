@@ -153,7 +153,7 @@ node index.js
 
 and open [http://localhost:8090](http://localhost:8090), you should see something like this:
 
-![VNC Login]("http://blog.mgechev.com/wp-content/uploads/2014/02/Screen-Shot-2014-02-08-at-20.43.44.png")
+![VNC Login](http://blog.mgechev.com/wp-content/uploads/2014/02/Screen-Shot-2014-02-08-at-20.43.44.png "VNC Login")
 
 The awesome thing is that we already have validation for the form! Did you notice that we added selector `form.ng-invalid.ng-dirty input.ng-invalid`? AngularJS is smart enough to validate the fields in our form by seeing their type (for example `input type="number"`, for the port) and their attributes (`required`, `ng-minlength`). When AngularJS detects that any field is not valid it adds the class: `ng-invalid` to the field, it also adds the class `ng-invalid` to the form, where this field is located. We, simply, take advantage, of this functionality provided by AngularJS, and define the styles: `form.ng-invalid.ng-dirty input.ng-invalid`. If you're still not aware how the validation works checkout [Form Validation in NG-Tutorial][17].
 
