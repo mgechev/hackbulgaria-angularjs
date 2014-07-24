@@ -19,15 +19,17 @@ GitHubStats.controller('UserRepoStatsCtrl', function ($scope, repos) {
     reposCount[l] += 1;
   });
 
-  var reposLangCount = Object.keys(reposCount).map(function (l) {
-    return {
-      c: [{
-        v: l
-      }, {
-        v: reposCount[l]
-      }]
-    };
-  });
+  var reposLangCount =
+    Object.keys(reposCount)
+    .map(function (l) {
+      return {
+        c: [{
+          v: l
+        }, {
+          v: reposCount[l]
+        }]
+      };
+    });
 
   $scope.languageStats = {
     'type': 'PieChart',
