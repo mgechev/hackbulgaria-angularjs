@@ -174,6 +174,17 @@ Inside `app/scripts/controllers/main.js`:
   1. When the form is valid, once the connection was successful redirect the user to path `/vnc`.
   2. Otherwise show error message, by setting value to `errorMessage`: "Connection timeout. Please, try again.".
 
+
+Lets create a wrapper of socketio:
+
+Run in the terminal:
+```bash
+yo angular:factory Io
+```
+
+Inside the service located in `app/scripts/services/io.js` return object with `connect` method, which delegates its call to the `connect` method of the global `io` object.
+
+
 The next component we are going to look at is the service `VNCClient`. Before that, lets create it using Yeoman:
 
 ```bash
@@ -314,88 +325,11 @@ this.connect = function (config) {
   };
 ```
 
-`connect` accepts a single argument &#8211; a configuration object. When the method is called it creates new socket using the service `Io`, which is simple wrapper of the global `io` provided by socket.io. We need this wrapper in order to be able to test the application easier and prevent monkey patching. After the socket is created we send new `init` message to the proxy (do you remember the init message?), with the required configuration for connecting to the VNC server. We also create a connection timeout. The connection timeout is quite important, if we receive a late response by the proxy or don&#8217;t receive any response at all. The next important part of the `connect` method is the handler of the response `init` message, by the proxy. When we receive the response within the acceptable time limit (remember the timeout) we resolve the promise, which was instantiated earlier in the beginning of the `connect` method.
-
-This way we transform a callback interface (by socket.io) into a promise based interface.
-
-This is the implementation of the `addHandlers` method:
-
-```javascript
-this.addHandlers = function (success) {
-  var self = this;
-  this.socket.on('frame', function (frame) {
-    self.update(frame);
-  });
-};
-```
-
-Actually we add a single handler, which handles the `frame` events, which carries new (changed) screen fragments. When new frame is received we invoke the `update` method. It may look familiar to you &#8211; this is actually the [observer pattern][18]. We add/remove callbacks using the following methods:
-
-```javascript
-this.addFrameCallback = function (fn) {
-  this.frameCallbacks.push(fn);
-};
-
-this.removeFrameCallback = function (fn) {
-  var cbs = this.frameCallbacks;
-  cbs.splice(cbs.indexOf(fn), 1);
-};
-```
-
-And in `update` we simply:
-
-```javascript"
-this.update = function (frame) {
-  this.frameCallbacks.forEach(function (cb) {
-    cb.call(null, frame);
-  });
-};
-```
-
-Since we need to capture events in the browsers (like pressing keys, mouse events&#8230;) and send them to the server we need methods for this:
-
-```javascript
-this.sendMouseEvent = function (x, y, mask) {
-  this.socket.emit('mouse', {
-    x: x,
-    y: y,
-    button: mask
-  });
-};
-
-this.sendKeyboardEvent = function (code, shift, isDown) {
-  var rfbKey = this.toRfbKeyCode(code, shift, isDown);
-  if (rfbKey)
-    this.socket.emit('keyboard', {
-      keyCode: rfbKey,
-      isDown: isDown
-    });
-};
-```
-
 The [VNC screen][19] directive is responsible for calling these methods. In the `sendKeyboardEvent` we transform the `keyCode`, received by handling the keydown/up event with JavaScript, to one, which is understandable by the RFB protocol. We do this using the array `keyMap` defined above. 
 
-Since we didn&#8217;t create the `Io` service, you can instantiate it by:
 
-```bash
-yo angular:factory Io
-```
 
-And place the following snippet inside `app/scripts/services/io.js`:
-
-```javascript
-'use strict';
-
-angular.module('clientApp').factory('Io', function () {
-  return {
-    connect: function () {
-      return io.connect.apply(io, arguments);
-    }
-  };
-});
-```
-
-Don&#8217;t forget to include the line:
+Don't forget to include the line:
 
 ```html
 <script src="/socket.io/socket.io.js"></script>
