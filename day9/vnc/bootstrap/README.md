@@ -444,19 +444,14 @@ function VNCClientScreen(canvas) {
 }
 
 VNCClientScreen.prototype.drawRect = function (rect) {
-  var img = new Image(),
-      self = this;
-  img.width = rect.width;
-  img.height = rect.height;
-  img.src = 'data:image/png;base64,' + rect.image;
-  img.onload = function () {
-    // Draw the image onto the canvas, using the appropriate method. Not that
-    // the canvas has specific position, so need to draw it with appopriate
-    // coordinates, width and height
-    self.onUpdateCbs.forEach(function (cb) {
-      cb();
-    });
-  };
+  // Draw the image onto the canvas, using the appropriate method.
+  // The base64 format image could be found in the `rect` object.
+  // Since the image has specific position, it needs to be drawn with appopriate
+  // coordinates, width and height. Once the image is drawn onto the canvas
+  // invoke all onUpdateCbs.
+  self.onUpdateCbs.forEach(function (cb) {
+    cb();
+  });
 };
 
 VNCClientScreen.prototype.getCanvas = function () {
@@ -625,7 +620,7 @@ cd proxy
 node index.js
 ```
 
-Now open the url: [http://localhost:8090](http://localhost:8090), and rock!
+Now open the url: [http://localhost:8090](http://localhost:8090).
 
  [1]: http://blog.mgechev.com/wp-content/uploads/2014/02/yeoman-vnc-angular.png
  [2]: http://angularjs.org/
