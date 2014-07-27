@@ -21,7 +21,7 @@ npm install -g generator-angular
 Now we can begin! Inside the directory `angular-vnc` create a directory called `client`:
 
 ```bash
-cd angular-vnc
+cd project_folder
 mkdir client
 cd client
 # Creates new AngularJS application
