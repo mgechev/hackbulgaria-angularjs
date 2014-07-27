@@ -6,6 +6,9 @@ First, lets take a look at our architecture:
 
 We should have a VNC server on the machine we want to control. This machine provides interface accessible through the [RFB protocol][10]. The proxy in the middle has RFB client, which knows how to talk to the RFB server. The proxy also provides HTTP server, which is responsible for serving static files to the client and also allows communication through [socket.io][11]. The last component in our diagram is the "AngularJS VNC client", which consists few HTML and JavaScript files provided to the browser by the proxy. This is what actually the user of our VNC client sees. He or she use the form provided in the "AngularJS VNC client" in order to enter connection details and connect to the machine he or she wants to control
 
+## Demo
+
+https://www.youtube.com/watch?v=FwPjTt4dQmw
 
 ## AngularJS & Yeoman VNC client
 
