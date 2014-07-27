@@ -7,9 +7,9 @@ First, lets take a look at our architecture:
 We should have a VNC server on the machine we want to control. This machine provides interface accessible through the [RFB protocol][10]. The proxy in the middle has RFB client, which knows how to talk to the RFB server. The proxy also provides HTTP server, which is responsible for serving static files to the client and also allows communication through [socket.io][11]. The last component in our diagram is the "AngularJS VNC client", which consists few HTML and JavaScript files provided to the browser by the proxy. This is what actually the user of our VNC client sees. He or she use the form provided in the "AngularJS VNC client" in order to enter connection details and connect to the machine he or she wants to control
 
 
-## AngularJS & Yeoman VNC client {#angular-vnc}
+## AngularJS & Yeoman VNC client
 
-First, of all you will need to install Yeoman, if you don&#8217;t already have it on your computer:
+First, of all you will need to install Yeoman, if you don't already have it on your computer:
 
 ```bash
 # Installs Yeoman
@@ -90,16 +90,16 @@ For next step, replace the content of `app/views/main.html` with:
 <div class="container">
   <div class="row" style="margin-top:20px">
       <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-      <form role="form" name="vnc-form" novalidate>
+      <form role="form">
         <fieldset>
           <h2>VNC Login</h2>
           <hr class="colorgraph">
           <div class="form-error" ng-bind="errorMessage"></div>
           <div class="form-group">
-              <input type="text" name="hostname" id="hostname-input" class="form-control input-lg" placeholder="Hostname" ng-model="host.hostname" required ng-minlength="3">
+              <input type="text" name="hostname" id="hostname-input" class="form-control input-lg" placeholder="Hostname">
           </div>
           <div class="form-group">
-              <input type="number" min="1" max="65535" name="port" id="port-input" class="form-control input-lg" placeholder="Port" ng-model="host.port" required>
+              <input type="number" min="1" max="65535" name="port" id="port-input" class="form-control input-lg" placeholder="Port">
           </div>
           <div class="form-group">
               <input type="password" name="password" id="password-input" class="form-control input-lg" placeholder="Password" ng-model="host.password">
@@ -114,6 +114,12 @@ For next step, replace the content of `app/views/main.html` with:
   </div>
 </div>
 ```
+
+Add validation to the form following the rules:
+
+1. The hostname (first text field) should be required with minimum length of 3 symbols. Bind it to the variable `host.hostname`.
+2. The port must be required and it should have a numeric value. Bind it to the variable `host.port`.
+
 
 You should also insert some CSS at `app/styles/main.css`:
 
@@ -159,36 +165,14 @@ The awesome thing is that we already have validation for the form! Did you notic
 
 We already have attached controller, to our view (because of Yeoman), so we only need to change its behavior.
 
-Replace the content of `app/scripts/controllers/main.js` with the following snippet:
+Inside `app/scripts/controllers/main.js`:
 
-```javascript
-'use strict';
-
-angular.module('clientApp')
-  .controller('MainCtrl',
-  function ($scope, $location, VNCClient) {
-
-    $scope.host = {};
-    $scope.host.proxyUrl = $location.protocol() + '://' + $location.host() + ':' + $location.port();
-
-    $scope.login = function () {
-      var form = $scope['vnc-form'];
-      if (form.$invalid) {
-        form.$setDirty();
-      } else {
-        VNCClient.connect($scope.host)
-        .then(function () {
-          $location.path('/vnc')
-        }, function () {
-          $scope.errorMessage = 'Connection timeout. Please, try again.';
-        });
-      }
-    };
-
-  });
-```
-
-The most interesting part of `MainCtrl` is the `login` method. In it, we first check wether the form is invalid (`form.$invalid`), if it is we make the it "dirty". We do this in order to remove the `ng-pristine` class from the form and force the validation. This scenario will happen if the user does not enter anything in the form and press the "Login" button. If the form is valid, we call the `connect` method of the service `VNCClient`. As you see it returns promise, when the promise is resolved we redirect the user to the page [http://localhost:8090/#/vnc](http://localhost:8090/#/vnc), otherwise we show him or her the message: `'Connection timeout. Please, try again.'` (checkout `<div class="form-error" ng-bind="errorMessage"></div>`).
+1. Inject the dependencies `$scope`, `$location` and `VNCClient`.
+2. Initialize new scope property called `host`.
+3. Add property to the scope property called `proxyUrl` with value the URL of the proxy.
+4. Add a `login` method to the scope, which when the form is valid invokes the `connect` method of the `VNCClient`, otherwise sets the form to `dirty`.
+  1. When the form is valid, once the connection was successful redirect the user to path `/vnc`.
+  2. Otherwise show error message, by setting value to `errorMessage`: "Connection timeout. Please, try again.".
 
 The next component we are going to look at is the service `VNCClient`. Before that, lets create it using Yeoman:
 
@@ -196,78 +180,14 @@ The next component we are going to look at is the service `VNCClient`. Before th
 yo angular:service VNCClient
 ```
 
-Now open the file: `app/scripts/services/vncclient.js` and place the following content there:
+Now open the file: `app/scripts/services/vncclient.js`.
+
+For bootstrapping the `VNCClient` you can use the following source code:
 
 ```javascript
 'use strict';
 
-var CONNECTION_TIMEOUT = 2000;
-
 function VNCClient($q, Io) {
-
-  this.frameCallbacks = [];
-
-  this.addFrameCallback = function (fn) {
-    this.frameCallbacks.push(fn);
-  };
-
-  this.update = function (frame) {
-    this.frameCallbacks.forEach(function (cb) {
-      cb.call(null, frame);
-    });
-  };
-
-  this.removeFrameCallback = function (fn) {
-    var cbs = this.frameCallbacks;
-    cbs.splice(cbs.indexOf(fn), 1);
-  };
-
-  this.sendMouseEvent = function (x, y, mask) {
-    this.socket.emit('mouse', {
-      x: x,
-      y: y,
-      button: mask
-    });
-  };
-
-  this.sendKeyboardEvent = function (code, shift, isDown) {
-    var rfbKey = this.toRfbKeyCode(code, shift, isDown);
-    if (rfbKey)
-      this.socket.emit('keyboard', {
-        keyCode: rfbKey,
-        isDown: isDown
-      });
-  };
-
-  this.connect = function (config) {
-    var deferred = $q.defer(),
-        self = this;
-    if (config.forceNewConnection) {
-      this.socket = Io.connect(config.proxyUrl);
-    } else {
-      this.socket = Io.connect(config.proxyUrl, { 'force new connection': true });
-    }
-    this.socket.emit('init', {
-      hostname: config.hostname,
-      port: config.port,
-      password: config.password
-    });
-    this.addHandlers();
-    this.setConnectionTimeout(deferred);
-    this.socket.on('init', function (config) {
-      self.screenWidth = config.width;
-      self.screenHeight = config.height;
-      self.connected = true;
-      clearTimeout(self.connectionTimeout);
-      deferred.resolve();
-    });
-    return deferred.promise;
-  };
-
-  this.disconnect = function () {
-    this.socket.disconnect();
-    this.connected = false;
-  };
 
   this.setConnectionTimeout = function (deferred) {
     var self = this;
@@ -298,6 +218,70 @@ VNCClient.keyMap = [[8,65288,65288],[9,65289,65289],[13,65293,65293],[16,65505,6
 
 angular.module('clientApp').service('VNCClient', VNCClient);
 ```
+
+The constructor function called VNCClient, should requre the dependencies `$q` and `Io`.
+
+To the prototype of the constructor function add the following methods:
+
+- `connect`
+- `disconnect`
+- `addFrameCallback`
+- `removeFrameCallback`
+- `update`
+- `sendMouseEvent`
+- `sendKeyboardEvent`
+- `setConnectionTimeout`
+- `addHandlers`
+- `toRfbKeyCode`
+
+Define new constant `CONNECTION_TIMEOUT` with value `2000`.
+
+In the constructor function add property called `frameCallbacks` with initial value an empty array.
+
+### connect(config)
+
+1. The connect method should accept a configuration object and return a promise, which will be resolved once the connection is established.
+2. If the `config` object has `forceNewConnection` property set with value `true` create new socketio socket by using the `Io` service, by passing a config object: `{ 'force new connection': true }`, otherwise create new socketio socket only by invoking the connect method, without any additional arguments (except the proxy URL).
+3. Emit new `init` event with the host's hostname, port and password.
+4. Call the method `addHandlers`.
+5. Set new connection timeout, by invoking the `setConnectionTimeout` method with the deferred object, which promise is being returned.
+6. Add event handler to the socket, which handles `init` events. Ones `init` event is being received set the properties:
+  1. `screenWidth` to `config.width`
+  2. `screenHeight` to `config.height`
+  3. `connected` to `true`
+Resolve the promise and clean the `connectionTimeout`.
+
+### addFrameCallback(fn)
+
+1. Add the passed callback to the `frameCallbacks` array.
+
+### removeFrameCallback(fn)
+
+1. Remove the passed callback from the `frameCallbacks` array.
+
+### update(frame)
+
+1. Invoke all `frameCallbacks` by passing them the given frame, passed as argument to `update`.
+
+### sendMouseEvent(x, y, mask)
+
+1. Emit new socketio event with name `mouse` and data object, which has the properties:
+  1. `x` equals to `x`
+  2. `y` equals to `y`
+  3. `button` equals to `mask`
+
+### sendKeyboardEvent(code, shift, isDown)
+
+1. Convert the keycode to `rfb` key by using the method `toRfbKeyCode`.
+2. If such key exists, emit new `keyboard` socketio event with argument object containing the properties:
+  1. `keyCode` - the rfb key
+  2. `isDown
+
+### disconnect
+
+1. Disconnect the socket
+2. Set the value of `connected` to `false`
+
 
 I know it is a lot of code but we will look only at the most important methods. You might noticed that we don&#8217;t follow the best practices for defining constructor functions &#8211; we don&#8217;t add the methods to the function&#8217;s prototype. Don&#8217;t worry about this, AngularJS will create a single instance of this constructor function and keep it in the services cache.
 
