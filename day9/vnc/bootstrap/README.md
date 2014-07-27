@@ -184,6 +184,14 @@ yo angular:factory Io
 
 Inside the service located in `app/scripts/services/io.js` return object with `connect` method, which delegates its call to the `connect` method of the global `io` object.
 
+Don't forget to include the line:
+
+```html
+<script src="/socket.io/socket.io.js"></script>
+```
+
+in `app/index.html`.
+
 
 The next component we are going to look at is the service `VNCClient`. Before that, lets create it using Yeoman:
 
@@ -328,15 +336,6 @@ this.connect = function (config) {
 The [VNC screen][19] directive is responsible for calling these methods. In the `sendKeyboardEvent` we transform the `keyCode`, received by handling the keydown/up event with JavaScript, to one, which is understandable by the RFB protocol. We do this using the array `keyMap` defined above. 
 
 
-
-Don't forget to include the line:
-
-```html
-<script src="/socket.io/socket.io.js"></script>
-```
-
-in `app/index.html`.
-
 And now, the last component is the VNC screen directive! But before looking at it, replace the content of `app/views/vnc.html` with the following markup:
 
 ```html
@@ -364,7 +363,7 @@ angular.module('clientApp')
   });
 ```
 
-`VncCtrl` is already located in `app/scripts/controllers/vnc.js`. You don&#8217;t have to worry about it because when we instantiated the `vnc` route, Yeoman was smart enough to create this controller for us.
+`VncCtrl` is already located in `app/scripts/controllers/vnc.js`. You don't have to worry about it because when we instantiated the `vnc` route, Yeoman was smart enough to create this controller for us.
 
 Now lets create the VNC screen directive:
 
@@ -372,12 +371,12 @@ Now lets create the VNC screen directive:
 yo angular:directive vnc-screen
 ```
 
-&#8230;and now open `app/scripts/directives/vnc-screen.js`. This is our directive definition:
+and now open `app/scripts/directives/vnc-screen.js`. This is our directive definition:
 
 ```javascript
 var VNCScreenDirective = function (VNCClient) {
   return {
-    template: '&lt;canvas class="vnc-screen">&lt;/canvas>',
+    template: '<canvas class="vnc-screen"></canvas>',
     replace: true,
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
@@ -388,7 +387,7 @@ var VNCScreenDirective = function (VNCClient) {
 angular.module('clientApp').directive('vncScreen', VNCScreenDirective);
 ```
 
-The show is in the link function in, which we will look at later. Now lets take a quick look at the other properties of the directive. The template of our directive is simple canvas with class `vnc-screen`, it should replace the directive. We define that the user of the `vnc-screen` directive should use it as element. It is also quite important to notice that we have a single dependency &#8211; the `VNCClient` service, we described above.
+Now lets take a quick look at the other properties of the directive. The template of our directive is simple canvas with class `vnc-screen`, it should replace the directive. We define that the user of the `vnc-screen` directive should use it as element. It is also quite important to notice that we have a single dependency - the `VNCClient` service, we described above.
 
 Now lets look what happens in the link function:
 
