@@ -450,7 +450,9 @@ VNCClientScreen.prototype.drawRect = function (rect) {
   img.height = rect.height;
   img.src = 'data:image/png;base64,' + rect.image;
   img.onload = function () {
-    self.context.drawImage(this, rect.x, rect.y, rect.width, rect.height);
+    // Draw the image onto the canvas, using the appropriate method. Not that
+    // the canvas has specific position, so need to draw it with appopriate
+    // coordinates, width and height
     self.onUpdateCbs.forEach(function (cb) {
       cb();
     });
@@ -462,16 +464,16 @@ VNCClientScreen.prototype.getCanvas = function () {
 };
 ```
 
-As next step we create new instance of `Screen`. This is the last component we are going to look at in the current tutorial but before taking a look at it lets see how we use it.
+As next step we create new instance of `Screen`. This is the last component we are going to look at in the current task but before taking a look at it lets see how we use it.
 
-We instantiate the `Screen` instance by passing our &#8220;visible&#8221; canvas and the VNC screen buffer (the wrapper of the &#8220;hidden&#8221; canvas) to it. For each received frame we are going to draw the buffer canvas over the VNC screen. We do this because the VNC screen could be scaled (i.e. with size different from the one of the remote machine&#8217;s screen) and we simplify our work by using this approach. Otherwise, we should calculate the relative position of each received frame before drawing it onto the canvas, taking in account the scale factor.
+We instantiate the `Screen` instance by passing our visible canvas and the VNC screen buffer (the wrapper of the hidden canvas) to it. For each received frame we are going to draw the buffer canvas over the VNC screen. We do this because the VNC screen could be scaled (i.e. with size different from the one of the remote machine's screen) and we simplify our work by using this approach. Otherwise, we should calculate the relative position of each received frame before drawing it onto the canvas, taking in account the scale factor.
 
 In the `frameCallback` we draw the received rectangle (changed part of the screen) on the buffer screen and after that draw the buffer screen over the `Screen` instance.
 
 In the link function we also invoke the methods:
 
-*   `addKeyboardHandlers`
-*   `addMouseHandler`
+* `addKeyboardHandlers`
+* `addMouseHandler`
 
 They simply delegate handling of mouse and keyboard event to the `VNCClient`. Here is the implementation of the `addKeyboardHandlers`:
 
